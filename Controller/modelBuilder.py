@@ -27,7 +27,7 @@ def timefunction(series):
     if length == 1:
         dur = 0
     else:
-        duration = abs(series.iloc[length - 1] - series.iloc[0])
+        duration = series.iloc[length - 1] - series.iloc[0]
         dur = duration.total_seconds() / 60
         if dur > 60:
             dur = 60
@@ -47,7 +47,8 @@ def importData():
 
 
 def convertRawtoClean(df, original=False):
-    df["timestamp"] = pd.to_datetime(df["timestamp"].astype(str))
+    #TAKES TOO LONG
+    df.timestamp = pd.to_datetime(df.timestamp)  # change time to datetime object
     data = df.drop(['sourcehash'], axis=1)  # drop unneeded hash
     # Change incorrect, hint, and correct to binary features
     data.loc[:, "incorrect"] = np.where(data['score'] == 0, 1, 0)
@@ -70,6 +71,8 @@ def convertRawtoClean(df, original=False):
         ["student_id", "problem"]).sum().reset_index()
     # Use the time function to find the time per problem for each student
     subsetData = cleanData[['student_id', 'problem', 'timestamp']]
+    
+    #STUCK HERE
     timeData = subsetData.groupby(['student_id', 'problem']).agg(func=timefunction).reset_index()
     # Merge the correctness data with the time data to get the finished dataset
     final_df = pd.merge(correctnessData, timeData, how='left', left_on=['student_id', 'problem'],
@@ -89,9 +92,7 @@ def chi2lower(x):
     float64: Returns the lower bound of the chi-squared distribution
     '''
     cutoff = np.percentile(x, 90)
-    ind = x.index[x <= cutoff]
-    values = x[ind]
-    return max(np.mean(values) - np.std(values)/4, 0)
+    return max(np.mean(cutoff) - np.std(cutoff)/4, 0)
 
 
 def chi2upper(x):
@@ -104,16 +105,14 @@ def chi2upper(x):
         float64: Returns the upper bound of the chi-squared distribution
     '''
     cutoff = np.percentile(x, 90)
-    ind = x.index[x <= cutoff]
-    values = x[ind]
-    return np.mean(values) + np.std(values)/2
+    return np.mean(cutoff) + np.std(cutoff)/2
 
 
 def distributionBuilder(df):
     ''' Calculates the chi-squared distribution bounds for each problem id
 
         Parameters:
-        df (DataFrame): Contains rows of student responses with all the variables of interest
+        data (DataFrame): Contains rows of student responses with all the variables of interest
 
         Returns:
         problemDists (DataFrame): Contains the bounds for hint, incorrect, and duration for each problem
@@ -253,7 +252,7 @@ def maintainDifficulty(lastQ_id, difficulty_values):
     # get the difficulty value of the last question completed
     diff = float(difficulty_values.loc[difficulty_values.problem == lastQ_id].difficulty)
     index = difficulty_values.loc[difficulty_values.problem == lastQ_id].index[0]  # find Q index
-    questionsFromCurrent = len(diff)*.05  # Initializing the range of questions from the current
+    questionsFromCurrent = int(np.ceil(len(difficulty_values)*.05))  # Initializing the range of questions from the current
     if index < questionsFromCurrent:  # if the index has VERY few questions easier
         nextQIndex = index + 1  # give the next hardest question since you're already at the easiest
         nextQ = difficulty_values.iloc[nextQIndex].problem  # get the problem ID of the next question
@@ -284,33 +283,33 @@ def nextQuestion(lastQ_id, difficulty_values, problemDists, questionData):
             answer: the answer to the problem the student will attempt next
         '''
         # find the question distribution for the question the student just answered
-        bounds = problemDists.loc[problemDists.index == lastQ_id]
+        bounds = problemDists.loc[problemDists.problem == lastQ_id] #change back
         # Iterates through an if-else tree derived from our seminal paper "Effort Based Tutoring"
         # The tree compares the last question's data with the question's distributions and decides to maintain, increase,
         # or decrease problem difficulty for the next question asked by the tutor
-        if questionData.incorrect[0] < bounds.incorrectLower.values[0] and questionData.hint[0] < bounds.hintLower.values[
-            0] and questionData.duration[0] < bounds.durationLower.values[0]:
+        if questionData.incorrect[0] <= bounds.incorrectLower.values[0] and questionData.hint[0] <= bounds.hintLower.values[
+            0] and questionData.duration[0] <= bounds.durationLower.values[0]:
             nextQ = increaseDifficulty(lastQ_id, difficulty_values)
-        elif questionData.incorrect[0] < bounds.incorrectLower.values[0] and questionData.hint[0] < bounds.hintLower.values[
-            0] and questionData.duration[0] > bounds.durationUpper.values[0]:
+        elif questionData.incorrect[0] <= bounds.incorrectLower.values[0] and questionData.hint[0] <= bounds.hintLower.values[
+            0] and questionData.duration[0] >= bounds.durationUpper.values[0]:
             nextQ = maintainDifficulty(lastQ_id, difficulty_values)
-        elif questionData.incorrect[0] < bounds.incorrectLower.values[0] and questionData.hint[0] > bounds.hintUpper.values[
-            0] and questionData.duration[0] < bounds.durationLower.values[0]:
+        elif questionData.incorrect[0] <= bounds.incorrectLower.values[0] and questionData.hint[0] >= bounds.hintUpper.values[
+            0] and questionData.duration[0] <= bounds.durationLower.values[0]:
             nextQ = reduceDifficulty(lastQ_id, difficulty_values)
-        elif questionData.incorrect[0] < bounds.incorrectLower.values[0] and questionData.hint[0] > bounds.hintUpper.values[
-            0] and questionData.duration[0] > bounds.durationUpper.values[0]:
+        elif questionData.incorrect[0] <= bounds.incorrectLower.values[0] and questionData.hint[0] >= bounds.hintUpper.values[
+            0] and questionData.duration[0] >= bounds.durationUpper.values[0]:
             nextQ = maintainDifficulty(lastQ_id, difficulty_values)
-        elif questionData.incorrect[0] > bounds.incorrectUpper.values[0] and questionData.hint[0] < bounds.hintLower.values[
-            0] and questionData.duration[0] < bounds.durationLower.values[0]:
+        elif questionData.incorrect[0] >= bounds.incorrectUpper.values[0] and questionData.hint[0] <= bounds.hintLower.values[
+            0] and questionData.duration[0] <= bounds.durationLower.values[0]:
             nextQ = reduceDifficulty(lastQ_id, difficulty_values)
-        elif questionData.incorrect[0] > bounds.incorrectUpper.values[0] and questionData.hint[0] < bounds.hintLower.values[
-            0] and questionData.duration[0] > bounds.durationUpper.values[0]:
+        elif questionData.incorrect[0] >= bounds.incorrectUpper.values[0] and questionData.hint[0] <= bounds.hintLower.values[
+            0] and questionData.duration[0] >= bounds.durationUpper.values[0]:
             nextQ = reduceDifficulty(lastQ_id, difficulty_values)
-        elif questionData.incorrect[0] > bounds.incorrectUpper.values[0] and questionData.hint[0] > bounds.hintUpper.values[
-            0] and questionData.duration[0] < bounds.durationLower.values[0]:
+        elif questionData.incorrect[0] >= bounds.incorrectUpper.values[0] and questionData.hint[0] >= bounds.hintUpper.values[
+            0] and questionData.duration[0] <= bounds.durationLower.values[0]:
             nextQ = reduceDifficulty(lastQ_id, difficulty_values)
-        elif questionData.incorrect[0] > bounds.incorrectUpper.values[0] and questionData.hint[0] > bounds.hintUpper.values[
-            0] and questionData.duration[0] > bounds.durationUpper.values[0]:
+        elif questionData.incorrect[0] >= bounds.incorrectUpper.values[0] and questionData.hint[0] >= bounds.hintUpper.values[
+            0] and questionData.duration[0] >= bounds.durationUpper.values[0]:
             nextQ = reduceDifficulty(lastQ_id, difficulty_values)
         else:
             nextQ = maintainDifficulty(lastQ_id, difficulty_values)
