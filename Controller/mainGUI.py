@@ -101,17 +101,33 @@ class listner():
 
 
             if submission["score"] == "100":
-                
+                # change the column type of the attempt data
                 attempt.graded = attempt.graded.astype(int)
                 attempt.score = attempt.score.astype(int)
+                
+                # condense to one dataframe row
                 qData = mb.convertRawtoClean(attempt)
+                
+                # if its the first time going to the next Q, give it the "a4" question
                 if i == 1:
                     nextQ = mb.nextQuestion("a4_1_lift", questionDifficulty, distributions, qData)
-                else:
-                    nextQ = mb.nextQuestion(nextQ, questionDifficulty, distributions, qData)
+                else:  # in all other cases, use the "problem"
+                    nextQ = mb.nextQuestion(problem, questionDifficulty, distributions, qData)
+                
                 i += 1
+                
+                # code to remove that question from the list of viable next questions
+                lastQ_index = questionDifficulty[questionDifficulty['problem'] == problem].index[0]
+                questionDifficulty = questionDifficulty.drop([lastQ_index]).reset_index().drop(["Unnamed: 0"], axis=1).drop(["index"], axis=1)
+                
+                # set that nextQ to the problem
+                problem = nextQ
+                
+                # reset attempt and submission
                 attempt = pd.DataFrame(columns = columns)
                 submission = ""
+                
+                # throw that shit into the GUI right here. We can add an exit to the while loop as long as you call this function again afterwards
                 QuestionLabelText = nextQ
                 print(QuestionLabelText)
 
