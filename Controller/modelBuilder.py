@@ -2,16 +2,7 @@ import pandas as pd
 import numpy as np
 import random
 import math
-'''
-Unused function ----------------
 
-def getStudentData(data):
-    stud = "Stu_fe96fe63d83aa63c4ec667167fc7f1ce"
-    df = data[["step", "problem", "stud_id", "duration", "hint", "incorrect", "correct"]]
-    newdf = df[df["stud_id"] == stud]
-    studentData = newdf.iloc[0:10, :]
-    return studentData
-'''
 
 def timefunction(series):
     ''' Calculates the total time a student spent on a problem
@@ -205,7 +196,8 @@ def increaseDifficulty(lastQ_id, difficulty_values):
         nextQ = maintainDifficulty(lastQ_id, difficulty_values)  # if none easier, maintain difficulty
     else:
         # look at all questions with lesser difficulty than the last completed Q
-        greaterDiff = difficulty_values.loc[difficulty_values['difficulty'] > diff].reset_index().drop(["index"], axis=1)
+        lowerBound = difficulty_values[difficulty_values['problem'] == lastQ_id].index[0]
+        greaterDiff = difficulty_values.iloc[lowerBound:len(difficulty_values)].drop(["Unnamed: 0"], axis=1)
         # choose a question that is a third of the way from the last Q difficulty to the easiest question difficulty
         nextQ = greaterDiff.iloc[int(np.ceil(len(greaterDiff) * .33)) - 1].problem
 
@@ -231,7 +223,8 @@ def reduceDifficulty(lastQ_id, difficulty_values):
         nextQ = maintainDifficulty(lastQ_id, difficulty_values)  # if none easier, maintain difficulty
     else:
         # look at all questions with lesser difficulty than the last completed Q
-        lesserDiff = difficulty_values.loc[difficulty_values['difficulty'] < diff].reset_index().drop(["index"], axis=1)
+        upperBound = difficulty_values[difficulty_values['problem'] == lastQ_id].index[0]
+        lesserDiff = difficulty_values.iloc[0:upperBound].drop(["Unnamed: 0"], axis=1)
         # choose a question that is a third of the way from the last Q difficulty to the easiest question difficulty
         nextQ = lesserDiff.iloc[int(np.ceil(len(lesserDiff) * .66))].problem
 
@@ -283,7 +276,7 @@ def nextQuestion(lastQ_id, difficulty_values, problemDists, questionData):
             answer: the answer to the problem the student will attempt next
         '''
         # find the question distribution for the question the student just answered
-        bounds = problemDists.loc[problemDists.problem == lastQ_id] #change back
+        bounds = problemDists.loc[problemDists.problem == lastQ_id]
         # Iterates through an if-else tree derived from our seminal paper "Effort Based Tutoring"
         # The tree compares the last question's data with the question's distributions and decides to maintain, increase,
         # or decrease problem difficulty for the next question asked by the tutor
@@ -315,27 +308,6 @@ def nextQuestion(lastQ_id, difficulty_values, problemDists, questionData):
             nextQ = maintainDifficulty(lastQ_id, difficulty_values)
 
         return nextQ
-
-
-def formatQandA(data, pairs, nextQ):
-    ''' Formats the question based on the format of the data
-
-    Args:
-        data (DF): the entire original data set
-        pairs (DF): question answer pairs
-        nextQ: the ID of the question the student will attempt next
-
-    Returns:
-        problem: the text of the problem the student will attempt next
-        answer: the answer to the problem the student will attempt next
-
-    '''
-    # Format the problem
-    problem = data[data["problem"] == nextQ].iloc[0]["step"].split(':')[-1].split("?")[0] + "?"
-    # Format the answer
-    answer = pairs[pairs["problem"] == nextQ].iloc[0][1]
-
-    return problem, answer
 
 
 def startingQ(data, questionDifficulty):
