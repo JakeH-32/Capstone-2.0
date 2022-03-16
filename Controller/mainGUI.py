@@ -3,8 +3,6 @@ import time
 
 from time import sleep
 
-# from PyQt6.uic import loadUi
-
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
@@ -24,8 +22,8 @@ import threading
 import modelBuilder as mb
 import dummyMain
 
-NextQScreen = "NextQOutputScreen.ui"
-TopicScreen = "TopicSelectionScreen.ui"
+NextQScreen = "../View/NextQOutputScreen.ui"
+TopicScreen = "../View/TopicSelectionScreen.ui"
 QuestionLabelText = "Problem #1"
 LinkToCanvas="<a href=\"https://canvas.instructure.com/courses/4116250\">'Click here to go to Canvas Page'</a>"
 
@@ -52,10 +50,10 @@ class listner():
         host = socket.gethostname()
         port = 5555
         
-        try:
-            s.bind((host, port))
-        except socket.error as s:
-            print(str(es))
+        # try:
+        #     s.bind((host, port))
+        # except socket.error as es:
+        #     print(str(es))
         
         s.listen(1)   
 

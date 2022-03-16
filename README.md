@@ -1,1 +1,3 @@
-# Capstone-2.0
+Hello CS 110 Students!
+
+To begin using the CS 110 Tutor, please...
