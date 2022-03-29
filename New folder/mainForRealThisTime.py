@@ -48,7 +48,7 @@ class Worker(QObject):
         
         try:
             s.bind((host, port))
-        except socket.error as s:
+        except socket.error as es:
             print(str(es))
         
         s.listen(1)   
