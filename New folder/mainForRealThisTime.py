@@ -23,22 +23,29 @@ import json
 import threading
 import modelBuilder as mb
 import dummyMain
+import webbrowser
 
 
-NextQScreen = "NextQOutputScreen.ui"
-QuestionLabelText = "Problem #1"
+
+# QuestionLabelText = "Problem #1"
 LinkToCanvas="<a href=\"https://canvas.instructure.com/courses/4116250\">'Click here to go to Canvas Page'</a>"
 
 
 class Worker(QObject):
 
-    nextQ = pyqtSignal()  # give worker class a finished signal
+    global QuestionLabelText
+    nextQSig = pyqtSignal()  # give worker class a finished signal
     incorrect = pyqtSignal()  # give worker class a finished signal
 
-    def __init__(self, parent=None):
+    def __init__(self, nextQ, questionDifficulty, distributions, parent=None):
         QObject.__init__(self, parent=parent)
         self.continue_run = True  # provide a bool run condition for the class
-
+        self.nextQ = nextQ
+        self.questionDifficulty = questionDifficulty
+        self.distributions = distributions
+        self.QuestionLabelText = nextQ
+        
+        
     def do_work(self):
         
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -55,7 +62,6 @@ class Worker(QObject):
 
         columns = ["student_id", "problem","timestamp","graded","score","sourcehash"]
         attempt = pd.DataFrame(columns = columns)
-        nextQ, questionDifficulty, distributions = dummyMain.initialize()
         i = 1
         print("waiting")
         global attemptNum
@@ -72,12 +78,11 @@ class Worker(QObject):
             #username = umsg.decode("utf-8")
 
 
-            problem = "lsn8_practice2"
             course = "1"
             
             time.sleep(.5)
             
-            API_Response = requests.get("https://tutor.dfcs-cloud.net/api/v1/getSubmissionHistory.php?apiKey=dfcs_capstone&course=" + course + "&problem=" + problem + "&start="+ timestamp, timeout = 3)
+            API_Response = requests.get("https://tutor.dfcs-cloud.net/api/v1/getSubmissionHistory.php?apiKey=dfcs_capstone&course=" + course + "&problem=" + self.nextQ + "&start="+ timestamp, timeout = 3)
 
             response = API_Response.json()  #full resonse from API
             submissions = response.get("submissions")   #list of submissions
@@ -103,28 +108,26 @@ class Worker(QObject):
                 attempt.graded = attempt.graded.astype(int)
                 attempt.score = attempt.score.astype(int)
                 qData = mb.convertRawtoClean(attempt)
-                if i == 1:
-                    nextQ = mb.nextQuestion("lsn8_practice2", questionDifficulty, distributions, qData)
-                else:
-                    nextQ = mb.nextQuestion(nextQ, questionDifficulty, distributions, qData)
-                i += 1
+                self.nextQ = mb.nextQuestion(self.nextQ, self.questionDifficulty, self.distributions, qData)
 
                 # code to remove that question from the list of viable next questions
-                lastQ_index = questionDifficulty[questionDifficulty['problem'] == problem].index[0]
-                questionDifficulty = questionDifficulty.drop([lastQ_index]).reset_index().drop(["Unnamed: 0"], axis=1).drop(["index"], axis=1)
+                lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
+                self.questionDifficulty = self.questionDifficulty.drop([lastQ_index]).reset_index().drop(["Unnamed: 0"], axis=1).drop(["index"], axis=1)
 
-                # set that nextQ to the problem
-                problem = nextQ
+                # set that nextQ to the problem then open that question
+                path = "..\Labs\\" + self.nextQ + ".py"
+                webbrowser.open(path)
+
 
                 # reset attempt and submission
                 attempt = pd.DataFrame(columns = columns)
                 submission = ""
 
                 
-                global QuestionLabelText
-                QuestionLabelText = nextQ
+                self.QuestionLabelText = self.nextQ
                 attemptNum = 1
-                self.nextQ.emit()
+                self.nextQSig.emit()
+                print(QuestionLabelText)
                 
             else:
 
@@ -139,10 +142,14 @@ class Worker(QObject):
 class Gui(QWidget):
 
     stop_signal = pyqtSignal()  # make a stop signal to communicate with the worker in another thread
+    global QuestionLabelText
 
-    def __init__(self):
+    def __init__(self, nextQ, questionDifficulty, distributions):
         super(Gui, self).__init__()
         loadUi(NextQScreen, self)
+        self.nextQ = nextQ
+        self.questionDifficulty = questionDifficulty
+        self.distributions = distributions
         self.initUI()
 
     def initUI(self):
@@ -153,7 +160,7 @@ class Gui(QWidget):
 #         widget.setCurrentIndex(widget.currentIndex() + 1)
 
         self.thread = QThread()
-        self.worker = Worker()
+        self.worker = Worker(self.nextQ, self.questionDifficulty, self.distributions)
         self.worker.moveToThread(self.thread)
         self.thread.started.connect(self.worker.do_work)
         
@@ -162,7 +169,7 @@ class Gui(QWidget):
 #         self.worker.finished.connect(self.worker.deleteLater)  # connect the workers finished signal to clean up worker
 #         self.thread.finished.connect(self.thread.deleteLater)  # connect threads finished signal to clean up thread
         
-        self.worker.nextQ.connect(self.NextQuestion)
+        self.worker.nextQSig.connect(self.NextQuestion)
         self.worker.incorrect.connect(self.IncorrectUpdate)
 
 
@@ -189,7 +196,8 @@ class Gui(QWidget):
         self.update
     
     def NextQuestion(self):
-        self.QuestionLabel.setText(QuestionLabelText)
+        
+        self.QuestionLabel.setText(self.worker.QuestionLabelText)
         self.attemptLabel.setText("Attempt Number: " + str(attemptNum))
         self.update
 
@@ -208,8 +216,16 @@ class Gui(QWidget):
 
 
 if __name__ == '__main__':
+    global QuestionLabelText, nextQ, questionDifficulty, distributions
+    nextQ, questionDifficulty, distributions = dummyMain.initialize()
+    nextQ = "lsn1_helloworld"
+    QuestionLabelText = nextQ
+    path = "..\Labs\\" + nextQ + ".py"
+    webbrowser.open(path)
+
+    NextQScreen = "NextQOutputScreen.ui"
     app = QApplication(sys.argv)
-    gui = Gui()
+    gui = Gui(nextQ, questionDifficulty, distributions)
     try:
         sys.exit(app.exec())
     except:
