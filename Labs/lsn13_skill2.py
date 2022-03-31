@@ -1,22 +1,35 @@
 from cs110 import autograder
 
 # ---------------------------------------------------------------------
-# Lab: Lesson 13 - Fundamental Skill #2
-# Course: CS110
+# Lab: Lesson 13 - Fundamental Skill #1
+# Course: CS110, Fall 2020
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
 # PROBLEM STATEMENT:
-# You are trying to use a for loop to print all of the powers of 2 from
-# 1024 (2^10) to 1 (2^0).  Unfortunately, for some reason, the loop
-# does not work.  Review the code and make the ncessary corrections.
+# You have been provided with a WHILE loop that prints values from 0 to 10.
+# Modify the code so that it counts from 10 to 0
 # ---------------------------------------------------------------------
 
-# HINT:  When using range()
-#     - the first number is the starting number
-#     - the second number is the ending number
-#     - the last number is the amount to change i by after each iteration
+# ITEM is an acronym that we use to help us remember the components of
+# a WHILE loop
 
-# This loop is broken.  Fix it!
-for i in range(10, 1, -1):
-    print(2**i)
+# I:  Initialize Loop Control Variable
+# The loop control variable is used to determine when we are done with the loop.
+# We can name it whatever we want
+i = 0
+
+# T:  Test
+# This is where we look at the loop control variable and decide if we are done
+# The loop will continue for as long as the test is TRUE
+while i <= 10:
+
+    # E:  Execute
+    # This is where we do the thing we want to do multiple times
+    print(i)
+
+    # M:  Modify Loop Control Variable
+    # This is where we change the value of the loop control variable
+    # if we do not do this, the loop will never end
+    i = i + 1
+

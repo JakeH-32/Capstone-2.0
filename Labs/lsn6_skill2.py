@@ -2,19 +2,21 @@ from cs110 import autograder
 
 # ---------------------------------------------------------------------
 # Lab: Lesson 6 - Fundamental Skill #2
-# Course: CS110
+# Course: CS110, Fall 2020
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
 # PROBLEM STATEMENT:
-# You have been provided with a program that gets a cadet's gpa, apa, and pea
-# If the cadet is on probation (gpa, mpa, or apa < 2.0), print "Probation"
-# Otherwise, print "No Probation"
+# The following program gets a distance and speed from the user, and
+# calculates the travel time.  Unfortunately, the code
+# does not work.  Analyze the code (and error message) and fix the problem.
 # ---------------------------------------------------------------------
+  
+# Gets Distance from the User
+distance = input()
 
-# THIS LINE IS GOOD.  DO NOT TOUCH!
-gpa = float(input())
-apa = float(input())
-mpa = float(input())
+# Gets Speed from the User
+speed = input()
 
-# YOUR CODE STARTS HERE
+# Prints out the travel time
+print(distance / speed)

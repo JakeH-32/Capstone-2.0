@@ -1,19 +1,28 @@
 from cs110 import autograder
+import random
 
 # ---------------------------------------------------------------------
 # Lab: Lesson 18 - Fundamental Skill #2
-# Course: CS110
+# Course: CS110, Fall 2020
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
 # PROBLEM STATEMENT:
-# You are being provided with an empty table.  Add the two rows
-# described in the problem writeup
+# You are being provided with a list containing 5 random numbers.  Create
+# a variable called my_value, and assign it the value of the 3rd item in
+# the list.
 # ---------------------------------------------------------------------
 
-squadron_table = []
+# This function creates a list with 5 random numbers.  Don't mess with it!
+def create_random_list():
+    result = []
+    for i in range(5):
+        result.append(random.randint(0, 100))
+    return result
 
-# Append Row 1 here
+# This creates a list called my_list
+my_list = create_random_list()
+
+# Write the code needed to print out the 3rd item in the list
 
 
-# Append Row 2

@@ -1,26 +1,28 @@
 from cs110 import autograder
-import random
 
 # ---------------------------------------------------------------------
 # Lab: Lesson 11 - Fundamental Skill #2
-# Course: CS110
+# Course: CS110, Spring 2021
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
 # PROBLEM STATEMENT:
-# You are being provided with a list containing 5 random numbers.  Create
-# a variable called my_value, and assign it the value of the 3rd item in
-# the list.
+# You have been provided with a function called draw_multiple_trees()
+# that outputs a tree using ASCII art.  Unlike the previous problem,
+# this function accepts a parameter that tells it how many trees to draw.
+#
+# Write a program that:
+# 1.  Gets an integer from the user and stores it in a variable.  You can name this variable whatever you want.
+# 2.  Calls the function, and passes the variable to it.  
 # ---------------------------------------------------------------------
 
-# This function creates a list with 5 random numbers.  Don't mess with it!
-def create_random_list():
-    result = []
-    for i in range(5):
-        result.append(random.randint(0, 100))
-    return result
+# DO NOT TOUCH THIS FUNCTION
+def draw_multiple_trees(num_trees_to_draw):
+    for i in range(num_trees_to_draw):
+        print("  *  ")
+        print(" *** ")
+        print("*****")
+        print("  |  ")
 
-# This creates a list called my_list
-my_list = create_random_list()
 
-# Write the code needed to save the 3rd item in the list into the my_value variable
+# Write Your Code Here

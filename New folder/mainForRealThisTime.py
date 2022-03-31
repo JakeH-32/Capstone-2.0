@@ -44,6 +44,7 @@ class Worker(QObject):
         self.questionDifficulty = questionDifficulty
         self.distributions = distributions
         self.QuestionLabelText = nextQ
+        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
         
         
     def do_work(self):
@@ -80,7 +81,7 @@ class Worker(QObject):
 
             course = "1"
             
-            time.sleep(.5)
+            time.sleep(2)
             
             API_Response = requests.get("https://tutor.dfcs-cloud.net/api/v1/getSubmissionHistory.php?apiKey=dfcs_capstone&course=" + course + "&problem=" + self.nextQ + "&start="+ timestamp, timeout = 3)
 
@@ -109,10 +110,10 @@ class Worker(QObject):
                 attempt.score = attempt.score.astype(int)
                 qData = mb.convertRawtoClean(attempt)
                 self.nextQ = mb.nextQuestion(self.nextQ, self.questionDifficulty, self.distributions, qData)
+                self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
 
                 # code to remove that question from the list of viable next questions
-                lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
-                self.questionDifficulty = self.questionDifficulty.drop([lastQ_index]).reset_index().drop(["Unnamed: 0"], axis=1).drop(["index"], axis=1)
+                self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
 
                 # set that nextQ to the problem then open that question
                 path = "..\Labs\\" + self.nextQ + ".py"

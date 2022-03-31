@@ -2,17 +2,40 @@ from cs110 import autograder
 
 # ---------------------------------------------------------------------
 # Lab: Lesson 6 - Fundamental Skill #1
-# Course: CS110
+# Course: CS110, Fall 2020
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
 # PROBLEM STATEMENT:
-# You have been provided with a program that gets the user's body temperature
-# If the body temperature is between 97-99 (inclusive), print "Normal".  Otherwise, print
-# "Abnormal"
+# Prompt the user for 3 different values.  Store the values in variables
+# using the names specified below.
+# DO NOT include any prompts when asking for a value from the user.
 # ---------------------------------------------------------------------
 
-# THIS LINE IS GOOD.  DO NOT TOUCH!
-body_temperature = float(input())
+# Ask the user to type a string, and store it in a variable called my_string
 
-# YOUR CODE BEGINS HERE
+
+# Ask the user to type an integer, and store it in a variable called my_integer
+
+
+# Ask the user to type a floating point value, and store it in a variable called my_float
+
+
+
+# ----------------------------------------------
+# DO NOT TOUCH ANY CODE BELOW THIS LINE
+# ----------------------------------------------
+try:
+    print(type(my_string))
+except:
+    print("A Problem Occurred Analyzing my_string.  Make sure the variable exists and is the correct data type.")
+
+try:
+    print(type(my_integer))
+except:
+    print("A Problem Occurred Analyzing my_integer.  Make sure the variable exists and is the correct data type.")
+    
+try:
+    print(type(my_float))
+except:
+    print("A Problem Occurred Analyzing my_float.  Make sure the variable exists and is the correct data type.")

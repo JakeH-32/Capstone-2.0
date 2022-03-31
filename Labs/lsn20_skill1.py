@@ -1,44 +1,37 @@
 from cs110 import autograder
-import pythonGraph
 
 # ---------------------------------------------------------------------
-# Graphics III: Lesson 20 - Fundamental Skill #1
-# Course: CS110
+# Lab: Lesson 20 - Fundamental Skill #1
+# Course: CS110, Fall 2020
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
 # PROBLEM STATEMENT:
-# You have been provided with the template code for an animation.
-# Study the code for a minute, then modify the code to do the following WHEN THE LEFT MOUSE BUTTON IS HELD DOWN:
-#    1.  Write the code needed to get the mouse's x and y coordinates
-#    2.  Draw a circle centered at the mouse's x and y coordinates
+# You have been provided with code that opens a CSV file.  Refer to the writeup to see what the file contains.
+#
+# Do the following:
+# Line 30:  Write a line of code that extracts the columns from each line.  Use the split() function
+# Line 33:  Create a new row (i.e., a list) that contains the number of silver medals, followed by the name of the country
+# Line 36:  Append the new row to my_table
 # ---------------------------------------------------------------------
 
-# Setup Tasks for the Window
-pythonGraph.open_window(600, 600)
-pythonGraph.set_window_title("Lsn 20 - Mouse Button Example")
+# Opens the file, and gets each line of text
+file = open("olympics.csv", "r")
+file_contents = file.read()
+lines_in_file = file_contents.split('\n')
 
-# Animation Loop
-# DO NOT TOUCH!
-while pythonGraph.window_not_closed():
-       
-    # Check to see if the mouse's left button is down
-    if pythonGraph.mouse_button_down("LEFT"):
-        
-        # You can delete this line if you want (or leave it in; doesn't matter)
-        pass
-        
-        # Get the X and Y coordinates of the mouse, and store them in variables
+# Creates an empty table
+my_table = []
 
-
+# Loops Through Every line in the File
+for line in lines_in_file:
     
-        # Draw a circle at the mouse's current x,y coordinates
-
-
+    # Write a line of code that extracts the columns from each line.  Use the split() function
     
-    # Shows All Drawings Above
-    pythonGraph.update_window()
-
-
-
-
+    
+    # Create a new row (i.e., a list) that contains the number of silver medals, followed by the name of the country
+    
+    
+    # Append the new row to my_table
+    
+    

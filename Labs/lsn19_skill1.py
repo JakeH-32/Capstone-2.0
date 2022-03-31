@@ -2,38 +2,23 @@ from cs110 import autograder
 
 # ---------------------------------------------------------------------
 # Lab: Lesson 19 - Fundamental Skill #1
-# Course: CS110
+# Course: CS110, Fall 2020
 # ---------------------------------------------------------------------
 
 # ---------------------------------------------------------------------
 # PROBLEM STATEMENT:
-# You have been provided with code that opens a CSV file.  Refer to the writeup to see what the file contains.
-#
-# Do the following:
-# Line 31: Write a line of code to break up each line of text into columns. Hint: Use the split() function
-# Line 35: Use the data from the previous step to create a new two-item list containing the number of silver medals, followed by the name of the country.
-# Line 39: Append this two-item list to my_table
+# You are being provided with a list of various starship classes
+# from the Star Trek universe (I'm a nerd . . . go with it), as well
+# as two input statements that get a row and column from the user.
+# Print out the corresponding row/column value from the table
 # ---------------------------------------------------------------------
 
-# Opens the file, and gets each line of text
-file = open("olympics.csv", "r")
-file_contents = file.read()
-lines_in_file = file_contents.split('\n')
+starship_table = [['Constitution', 288.6,  127.1,  72.6],
+                  ['Galaxy',       642.5,  463.73, 135.26],
+                  ['Intrepid',     343.0,  133.0,  66],
+                  ['Sovereign ',   685.3,  250.6,  88.2]]
 
-# Creates an empty table
-my_table = []
+row_to_print = int(input())
+col_to_print = int(input())
 
-# Loops Through Every line in the File
-for line in lines_in_file:
-    
-    # Write a line of code to break up each line of text into columns.
-    # Hint: Use the split() function
-
-    
-    # Use the data from the previous step to create a new two-item list containing:
-    #   The number of silver medals, followed by the name of the country
-
-
-    
-    # Append this two-item list to my_table
-        
+# Your Print Statement Goes Here

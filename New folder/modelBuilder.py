@@ -197,7 +197,7 @@ def increaseDifficulty(lastQ_id, difficulty_values):
     else:
         # look at all questions with lesser difficulty than the last completed Q
         lowerBound = difficulty_values[difficulty_values['problem'] == lastQ_id].index[0]
-        greaterDiff = difficulty_values.iloc[lowerBound:len(difficulty_values)].drop(["Unnamed: 0"], axis=1)
+        greaterDiff = difficulty_values.iloc[lowerBound:len(difficulty_values)]
         # choose a question that is a third of the way from the last Q difficulty to the easiest question difficulty
         nextQ = greaterDiff.iloc[int(np.ceil(len(greaterDiff) * .33)) - 1].problem
 
@@ -224,7 +224,7 @@ def reduceDifficulty(lastQ_id, difficulty_values):
     else:
         # look at all questions with lesser difficulty than the last completed Q
         upperBound = difficulty_values[difficulty_values['problem'] == lastQ_id].index[0]
-        lesserDiff = difficulty_values.iloc[0:upperBound].drop(["Unnamed: 0"], axis=1)
+        lesserDiff = difficulty_values.iloc[0:upperBound]
         # choose a question that is a third of the way from the last Q difficulty to the easiest question difficulty
         nextQ = lesserDiff.iloc[int(np.ceil(len(lesserDiff) * .66))].problem
 
