@@ -20,103 +20,33 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
-background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb(151, 222, 255), stop:1 rgba(255, 255, 255, 255))
+background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb(131, 216, 255), stop:1 rgba(255, 255, 255, 255))
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="2">
-    <layout class="QGridLayout" name="gridLayout" rowstretch="400,0,0,0,0,0,0,0,0,0,0,0,0,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="400,0,0,0,0,0,0,0,0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
      </property>
-     <item row="13" column="1">
-      <spacer name="verticalSpacer_3">
+     <item row="8" column="1">
+      <layout class="QVBoxLayout" name="verticalLayout_2"/>
+     </item>
+     <item row="1" column="1">
+      <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Maximum</enum>
+        <enum>QSizePolicy::Minimum</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>70</height>
+         <height>60</height>
         </size>
        </property>
       </spacer>
-     </item>
-     <item row="2" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="minimumSize">
-          <size>
-           <width>300</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>10</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="mouseTracking">
-          <bool>true</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QWidget{
-border-radius:20px;
-background-color:&quot;linen&quot;
-}
-</string>
-         </property>
-         <property name="text">
-          <string>https://www.google.com/</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-         <property name="openExternalLinks">
-          <bool>true</bool>
-         </property>
-         <property name="textInteractionFlags">
-          <set>Qt::TextBrowserInteraction</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
      </item>
      <item row="0" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -126,7 +56,7 @@ background-color:&quot;linen&quot;
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Minimum</enum>
+          <enum>QSizePolicy::MinimumExpanding</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -191,7 +121,7 @@ background-color:&quot;linen&quot;
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Minimum</enum>
+          <enum>QSizePolicy::MinimumExpanding</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -203,43 +133,87 @@ background-color:&quot;linen&quot;
        </item>
       </layout>
      </item>
-     <item row="9" column="1">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item row="2" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <spacer name="verticalSpacer_6">
+        <spacer name="horizontalSpacer_3">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Minimum</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
-           <height>30</height>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="attemptLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>10</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+border-radius:10px;
+background-color:&quot;linen&quot;
+}</string>
+         </property>
+         <property name="text">
+          <string>Attempt Number: 0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
       </layout>
      </item>
-     <item row="1" column="1">
-      <spacer name="verticalSpacer_2">
+     <item row="12" column="1">
+      <spacer name="verticalSpacer_3">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
+        <enum>QSizePolicy::MinimumExpanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>75</height>
+         <height>150</height>
         </size>
        </property>
       </spacer>
      </item>
-     <item row="12" column="1">
+     <item row="11" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <spacer name="horizontalSpacer_5">
@@ -258,38 +232,17 @@ background-color:&quot;linen&quot;
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="backButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <spacer name="horizontalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
-         <property name="minimumSize">
+         <property name="sizeHint" stdset="0">
           <size>
-           <width>30</width>
-           <height>10</height>
+           <width>40</width>
+           <height>20</height>
           </size>
          </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QWidget{
-border-radius:20px;
-background-color:&quot;linen&quot;
-}</string>
-         </property>
-         <property name="text">
-          <string>Back to Topic Selection</string>
-         </property>
-        </widget>
+        </spacer>
        </item>
        <item>
         <spacer name="horizontalSpacer_7">
@@ -305,93 +258,12 @@ background-color:&quot;linen&quot;
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="startButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>10</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QWidget{
-border-radius:20px;
-background-color:&quot;linen&quot;
-}</string>
-         </property>
-         <property name="text">
-          <string>Begin Question</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_8">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="skipButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>10</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QWidget{
-border-radius:20px;
-background-color:&quot;linen&quot;
-}</string>
-         </property>
-         <property name="text">
-          <string>Skip Question</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="horizontalSpacer_6">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::MinimumExpanding</enum>
+          <enum>QSizePolicy::Expanding</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -403,22 +275,6 @@ background-color:&quot;linen&quot;
        </item>
       </layout>
      </item>
-     <item row="3" column="1">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>30</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
     </layout>
    </item>
    <item row="0" column="2">
@@ -427,12 +283,12 @@ background-color:&quot;linen&quot;
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeType">
-      <enum>QSizePolicy::Minimum</enum>
+      <enum>QSizePolicy::MinimumExpanding</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>75</height>
+       <height>60</height>
       </size>
      </property>
     </spacer>

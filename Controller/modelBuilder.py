@@ -323,6 +323,10 @@ def startingQ(data, questionDifficulty):
     '''
     problems = len(questionDifficulty)
     problemNum = int(math.floor(problems/2))
-    startingProblem = questionDifficulty.iloc[problemNum].problem
+    radius = int(np.ceil(problems*.075))
+    upper = problemNum + radius
+    lower = problemNum - radius
+    startingIndex = random.randint(lower, upper)
+    startingProblem = questionDifficulty.iloc[startingIndex].problem
 
     return startingProblem

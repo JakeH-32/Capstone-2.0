@@ -1,0 +1,5 @@
+Step 1: Download zip and put in CS110 folder
+Step 2: Set Thonny as default python file opener
+Step 2 (temporary): Replace autograder file
+Step 3: 
+Step 4: 

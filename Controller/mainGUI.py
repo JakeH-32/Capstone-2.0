@@ -1,7 +1,10 @@
 import sys
 import time
+import webbrowser
 
 from time import sleep
+
+# from PyQt6.uic import loadUi
 
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -22,48 +25,44 @@ import threading
 import modelBuilder as mb
 import dummyMain
 
+
 NextQScreen = "../View/NextQOutputScreen.ui"
-TopicScreen = "../View/TopicSelectionScreen.ui"
 QuestionLabelText = "Problem #1"
 LinkToCanvas="<a href=\"https://canvas.instructure.com/courses/4116250\">'Click here to go to Canvas Page'</a>"
 
 
+class Worker(QObject):
 
-class Lthread(threading.Thread):
-    def __init__(self, thread_name, thread_ID):
-        threading.Thread.__init__(self)
-        self.thread_name = thread_name
-        self.thread_ID = thread_ID
+    nextQ = pyqtSignal()  # give worker class a finished signal
+    incorrect = pyqtSignal()  # give worker class a finished signal
 
-        # helper function to execute the threads
-    def run(self):
-        L = listner()
-        
+    def __init__(self, parent=None):
+        QObject.__init__(self, parent=parent)
+        self.continue_run = True  # provide a bool run condition for the class
 
-
-class listner():
-    
-    def __init__(self):
+    def do_work(self):
         
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
         host = socket.gethostname()
         port = 5555
         
-        # try:
-        #     s.bind((host, port))
-        # except socket.error as es:
-        #     print(str(es))
+        try:
+            s.bind((host, port))
+        except socket.error as es:
+            print(str(es))
         
         s.listen(1)   
 
         columns = ["student_id", "problem","timestamp","graded","score","sourcehash"]
         attempt = pd.DataFrame(columns = columns)
         nextQ, questionDifficulty, distributions = dummyMain.initialize()
-        
         i = 1
-        while (True):
-            print("waiting")
+        print("waiting")
+        global attemptNum
+        attemptNum = 1
+        while (self.continue_run):
+            
             # waits for notification from autograder, then fetches new submission 
             conn, addr = s.accept()
             print(f"conn from {addr}")
@@ -98,158 +97,123 @@ class listner():
             attempt = attempt.append(responseSeries, ignore_index=True)
 
 
-            if submission["score"] == "100":
-                # change the column type of the attempt data
+            if submission["score"] == "100":                
+                
+                
+                
                 attempt.graded = attempt.graded.astype(int)
                 attempt.score = attempt.score.astype(int)
-                
-                # condense to one dataframe row
                 qData = mb.convertRawtoClean(attempt)
-                
-                # if its the first time going to the next Q, give it the "a4" question
                 if i == 1:
-                    nextQ = mb.nextQuestion("a4_1_lift", questionDifficulty, distributions, qData)
-                else:  # in all other cases, use the "problem"
-                    nextQ = mb.nextQuestion(problem, questionDifficulty, distributions, qData)
-                
+                    nextQ = mb.nextQuestion("lsn8_practice2", questionDifficulty, distributions, qData)
+                else:
+                    nextQ = mb.nextQuestion(nextQ, questionDifficulty, distributions, qData)
                 i += 1
-                
+
                 # code to remove that question from the list of viable next questions
                 lastQ_index = questionDifficulty[questionDifficulty['problem'] == problem].index[0]
                 questionDifficulty = questionDifficulty.drop([lastQ_index]).reset_index().drop(["Unnamed: 0"], axis=1).drop(["index"], axis=1)
-                
-                # set that nextQ to the problem
+
+                # set that nextQ to the problem then open that question
                 problem = nextQ
-                
+                path = "..\Labs\\" + problem + ".py"
+                webbrowser.open(path)
+
                 # reset attempt and submission
                 attempt = pd.DataFrame(columns = columns)
                 submission = ""
+
                 
-                # throw that shit into the GUI right here. We can add an exit to the while loop as long as you call this function again afterwards
+                global QuestionLabelText
                 QuestionLabelText = nextQ
-                print(QuestionLabelText)
+                attemptNum = 1
+                self.nextQ.emit()
+                
+            else:
 
+                attemptNum = attemptNum + 1
+                self.incorrect.emit()
+                
+    
+    def stop(self):
+        self.continue_run = False  # set the run condition to false on stop
+        print("tutorOff")
 
-# Screen Classes
-class TopicSelectionScreen(QDialog):
+class Gui(QWidget):
+
+    stop_signal = pyqtSignal()  # make a stop signal to communicate with the worker in another thread
+
     def __init__(self):
-        super(TopicSelectionScreen, self).__init__()
-        loadUi(TopicScreen, self)
-        self.begin.clicked.connect(self.beginTutor)
-        
-        
-
-    def beginTutor(self):
-        # init userInputs
-        userInput1, userInput2, userInput3, userInput4, userInput5 = 0, 0, 0, 0, 0
-
-        # See what they pick
-        if self.option1.isChecked():
-            userInput1 = 1
-        if self.option2.isChecked():
-            userInput2 = 1
-        if self.option3.isChecked():
-            userInput3 = 1
-        if self.option4.isChecked():
-            userInput4 = 1
-        if self.option5.isChecked():
-            userInput5 = 1
-
-        total = userInput1 + userInput2 + userInput3 + userInput4 + userInput5
-        if total == 0:
-            self.warning.setText("Please select a topic")
-        elif userInput5 == 1:
-            print("Selected all topics")
-        if userInput1 == 1:
-            print("Selected block 1")
-        if userInput2 == 1:
-            print("Selected block 2")
-        if userInput3 == 1:
-            print("Selected block 3")
-        if userInput4 == 1:
-            print("Selected block 4")
-        if total != 0:
-            self.showQuestion()
-
-    def showQuestion(self):
-        sleep(.1)
-        nextQScreen = NextQOutputScreen()
-        widget.addWidget(nextQScreen)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-
-class NextQOutputScreen(QDialog):
-    def __init__(self):
-        super(NextQOutputScreen, self).__init__()
+        super(Gui, self).__init__()
         loadUi(NextQScreen, self)
-        
-        self.threadpool = QThreadPool()
-        
-        self.backButton.clicked.connect(self.goBack)
-        self.QuestionLabel.setText(QuestionLabelText)
+        self.initUI()
 
-        self.startButton.clicked.connect(self.startQuestion)
-        self.label.setText(LinkToCanvas)
-        self.skipButton.clicked.connect(self.skipQuestion)
+    def initUI(self):
+
+        sleep(.1)
+        #nextQScreen = NextQOutputScreen()
+#         widget.addWidget(nextQScreen)
+#         widget.setCurrentIndex(widget.currentIndex() + 1)
+
+        self.thread = QThread()
+        self.worker = Worker()
+        self.worker.moveToThread(self.thread)
+        self.thread.started.connect(self.worker.do_work)
+        
+
+#         self.worker.finished.connect(self.thread.quit)  # connect the workers finished signal to stop thread
+#         self.worker.finished.connect(self.worker.deleteLater)  # connect the workers finished signal to clean up worker
+#         self.thread.finished.connect(self.thread.deleteLater)  # connect threads finished signal to clean up thread
+        
+        self.worker.nextQ.connect(self.NextQuestion)
+        self.worker.incorrect.connect(self.IncorrectUpdate)
+
+
+        self.thread.start()
+
+
+        self.QuestionLabel.setText(QuestionLabelText)
+        self.attemptLabel.setText("Attempt Number: " + "1")
+
+
+        # Thread:
+        
+        
+        self.show()
 
 
     def startQuestion(self):
-        worker = Worker(self.listner)
-        
-        # Add listener here
-        # for i in range(10):
-        # self.startButton.setEnabled(False)
-        
-        self.threadpool.start(worker)
-
-        #Run code before here
+        print("ye whatevea")
+    
+    
+    def IncorrectUpdate(self):
+        self.QuestionLabel.setText("Incorrect, try again bud")
+        self.attemptLabel.setText("Attempt Number: " + str(attemptNum))
+        self.update
+    
+    def NextQuestion(self):
+        self.QuestionLabel.setText(QuestionLabelText)
+        self.attemptLabel.setText("Attempt Number: " + str(attemptNum))
+        self.update
 
 
     def skipQuestion(self):
         sleep(.25)
-        nextQScreen = NextQOutputScreen()
-        widget.addWidget(nextQScreen)
-        widget.setCurrentIndex(widget.currentIndex())
-        self.QuestionLabel.setText("Question Skipped")
+        
 
 
 
     def goBack(self):
-        sleep(.25)
-        topicScreen = TopicSelectionScreen()
-        widget.addWidget(topicScreen)
-        widget.setCurrentIndex(0)
+         sleep(.25)
+#         topicScreen = TopicSelectionScreen()
+#         widget.addWidget(topicScreen)
+#         widget.setCurrentIndex(0)
 
 
-
-
-class Qthread(threading.Thread):
-    def __init__(self, thread_name, thread_ID):
-        threading.Thread.__init__(self)
-        self.thread_name = thread_name
-        self.thread_ID = thread_ID
-
-        # helper function to execute the threads
-    def run(self):
-        global widget
-        app = QApplication(sys.argv)
-        TopicSelection = TopicSelectionScreen()
-        widget = QtWidgets.QStackedWidget()
-        widget.addWidget(TopicSelection)
-        widget.show()
-
-        try:
-            sys.exit(app.exec())
-        except:
-            print("Exiting")
-# Main
-
-
-
-threadListner = Lthread("Listner", 1000)
-threadGUI = Qthread("GUI", 2000)
-
-threadListner.start()
-threadGUI.start()
-
-# 
-
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    gui = Gui()
+    try:
+        sys.exit(app.exec())
+    except:
+        print("Exiting")

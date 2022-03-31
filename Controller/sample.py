@@ -26,3 +26,5 @@ while i < cadets:
     if (year == 2017):
         count = count + 1
     i = i + 1
+
+print(count)
