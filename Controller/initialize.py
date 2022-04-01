@@ -11,5 +11,3 @@ def initialize():
     questionDifficulty = pd.read_csv("questionDifficulty.csv")
     problem = mb.startingQ(data, questionDifficulty)
     return problem, questionDifficulty, distributions  # return all that we found
-
-problem, questionDifficulty, distributions = initialize()

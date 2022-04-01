@@ -38,7 +38,6 @@ def importData():
 
 
 def convertRawtoClean(df, original=False):
-    #TAKES TOO LONG
     df.timestamp = pd.to_datetime(df.timestamp)  # change time to datetime object
     data = df.drop(['sourcehash'], axis=1)  # drop unneeded hash
     # Change incorrect, hint, and correct to binary features

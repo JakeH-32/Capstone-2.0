@@ -22,15 +22,13 @@ import requests
 import json
 import threading
 import modelBuilder as mb
-import dummyMain
+import initialize
 import webbrowser
 
 
 
 # QuestionLabelText = "Problem #1"
 LinkToCanvas="<a href=\"https://canvas.instructure.com/courses/4116250\">'Click here to go to Canvas Page'</a>"
-
-
 class Worker(QObject):
 
     global QuestionLabelText
@@ -218,13 +216,13 @@ class Gui(QWidget):
 
 if __name__ == '__main__':
     global QuestionLabelText, nextQ, questionDifficulty, distributions
-    nextQ, questionDifficulty, distributions = dummyMain.initialize()
+    nextQ, questionDifficulty, distributions = initialize.initialize()
     nextQ = "lsn1_helloworld"
     QuestionLabelText = nextQ
     path = "..\Labs\\" + nextQ + ".py"
     webbrowser.open(path)
-
-    NextQScreen = "NextQOutputScreen.ui"
+    
+    NextQScreen = "../View/NextQOutputScreen.ui"
     app = QApplication(sys.argv)
     gui = Gui(nextQ, questionDifficulty, distributions)
     try:
