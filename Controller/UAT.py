@@ -105,7 +105,7 @@ class Worker(QObject):
                 
                 
                 attempt.graded = attempt.graded.astype(int)
-                attempt.score = attempt.score.astype(int)
+                attempt.score = attempt.score.astype(float)
                 qData = mb.convertRawtoClean(attempt)
                 self.nextQ = mb.nextQuestion(self.nextQ, self.questionDifficulty, self.distributions, qData)
                 self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
@@ -126,7 +126,6 @@ class Worker(QObject):
                 self.QuestionLabelText = self.nextQ
                 attemptNum = 1
                 self.nextQSig.emit()
-                print(QuestionLabelText)
                 
             else:
 
@@ -174,9 +173,17 @@ class Gui(QWidget):
 
         self.thread.start()
 
+        self.QuestionTextLabel.setText("")
 
-        self.QuestionLabel.setText(QuestionLabelText)
-        self.attemptLabel.setText("Attempt Number: " + "1")
+        textPath = "..\Labs\QuestionText\\" + QuestionLabelText + ".html"
+        questionHtml = open(textPath, 'r', encoding='utf-8')
+        questionText = questionHtml.read()
+        self.QuestionTextLabel.setText(questionText)
+        
+        self.QuestionNameLabel.setText(QuestionLabelText)
+        self.IncorrectLabel.setText("")
+        self.CorrectLabel.setText("")
+        self.AttemptLabel.setText("Attempt Number: " + "1")
 
 
         # Thread:
@@ -190,14 +197,23 @@ class Gui(QWidget):
     
     
     def IncorrectUpdate(self):
-        self.QuestionLabel.setText("Incorrect, try again bud")
-        self.attemptLabel.setText("Attempt Number: " + str(attemptNum))
+        self.IncorrectLabel.setText("Incorrect, try again bud")
+        self.CorrectLabel.setText("")
+        self.AttemptLabel.setText("Attempt Number: " + str(attemptNum))
         self.update
     
     def NextQuestion(self):
         
-        self.QuestionLabel.setText(self.worker.QuestionLabelText)
-        self.attemptLabel.setText("Attempt Number: " + str(attemptNum))
+        self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
+        
+        textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
+        questionHtml = open(textPath, 'r', encoding='utf-8')
+        questionText = questionHtml.read()
+        self.QuestionTextLabel.setText(questionText)
+        
+        self.CorrectLabel.setText("Great Job! Try this one")
+        self.IncorrectLabel.setText("")
+        self.AttemptLabel.setText("Attempt Number: " + str(attemptNum))
         self.update
 
 
