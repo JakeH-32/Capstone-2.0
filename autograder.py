@@ -379,12 +379,12 @@ def main():
             if response_code == 200:
                 
 
-                host = socket.gethostname()
-                port = 5555
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((host, port))
-                s.send(bytes(UAT_Timestamp, "utf-8"))
-                #s.send(bytes(user, "utf-8"))
+#                 host = socket.gethostname()
+#                 port = 5555
+#                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#                 s.connect((host, port))
+#                 s.send(bytes(UAT_Timestamp, "utf-8"))
+#                 #s.send(bytes(user, "utf-8"))
                 
                 namespace = globals()
                 
@@ -415,6 +415,13 @@ def main():
                 
                     # Runs the Test Cases
                 run_testcases(test_passed, response_json)
+                
+                host = socket.gethostname()
+                port = 5555
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.connect((host, port))
+                s.send(bytes(UAT_Timestamp, "utf-8"))
+                #s.send(bytes(user, "utf-8"))
                     
                     # Prevents Your Program from Running a Second Time
                 sys.exit()
