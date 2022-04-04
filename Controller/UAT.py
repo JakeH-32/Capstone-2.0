@@ -79,7 +79,7 @@ class Worker(QObject):
 
             course = "1"
             
-            time.sleep(2)
+            time.sleep(4)
             
             API_Response = requests.get("https://tutor.dfcs-cloud.net/api/v1/getSubmissionHistory.php?apiKey=dfcs_capstone&course=" + course + "&problem=" + self.nextQ + "&start="+ timestamp, timeout = 3)
 
