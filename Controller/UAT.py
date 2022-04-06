@@ -175,10 +175,13 @@ class Gui(QWidget):
 
         self.QuestionTextLabel.setText("")
 
-        textPath = "..\Labs\QuestionText\\" + QuestionLabelText + ".html"
-        questionHtml = open(textPath, 'r', encoding='utf-8')
-        questionText = questionHtml.read()
-        self.QuestionTextLabel.setText(questionText)
+        try:
+            textPath = "..\Labs\QuestionText\\" + QuestionLabelText + ".html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        except:
+            self.QuestionTextLabel.setText("no question text found")
         
         self.QuestionNameLabel.setText(QuestionLabelText)
         self.IncorrectLabel.setText("")
@@ -206,10 +209,13 @@ class Gui(QWidget):
         
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
         
-        textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
-        questionHtml = open(textPath, 'r', encoding='utf-8')
-        questionText = questionHtml.read()
-        self.QuestionTextLabel.setText(questionText)
+        try:
+            textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        except:
+            self.QuestionTextLabel.setText("no question text found")
         
         self.CorrectLabel.setText("Great Job! Try this one")
         self.IncorrectLabel.setText("")

@@ -16,6 +16,9 @@ from cs110 import autograder
 
 # YOUR FUNCTION GOES HERE
    
+def calculate_size_of_image(imageW, imageH, imageD):
+    kilobytes = (((imageW * imageH * imageD) / 8) / 2**10)
+    print(kilobytes)
 
 
 # Testing Code.  DO NOT TOUCH
