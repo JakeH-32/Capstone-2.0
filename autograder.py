@@ -353,15 +353,11 @@ def main():
             
             
             
-            #
+            #grabs the time from website and sends it to the UAT
+            #needed to prevent "start" time discrepencies from using the local computer time
             API_Response = requests.get("https://tutor.dfcs-cloud.net/api/v1/getSubmissionHistory.php?apiKey=dfcs_capstone&course=1&problem=null", timeout = 3)
             response = API_Response.json()  #full resonse from API
             UAT_Timestamp = response.get("stop")
-            
-            #added timestamp to send to UAT
-            #ts = time.localtime()
-            #UAT_Timestamp = (time.strftime("%Y-%m-%d %H:%M:%S", ts))
-            
             
             # Transmits the Code to the Server
             response = requests.post(autograder_url, data=post_data, headers=post_headers)
@@ -377,15 +373,7 @@ def main():
             
 
             if response_code == 200:
-                
-
-#                 host = socket.gethostname()
-#                 port = 5555
-#                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#                 s.connect((host, port))
-#                 s.send(bytes(UAT_Timestamp, "utf-8"))
-#                 #s.send(bytes(user, "utf-8"))
-                
+                                
                 namespace = globals()
                 
                 # Compiles the code and stores the values in namespace
@@ -416,12 +404,13 @@ def main():
                     # Runs the Test Cases
                 run_testcases(test_passed, response_json)
                 
+                    #after all is done, send data back to the UAT
                 host = socket.gethostname()
                 port = 5555
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 s.connect((host, port))
                 s.send(bytes(UAT_Timestamp, "utf-8"))
-                #s.send(bytes(user, "utf-8"))
+                s.send(bytes(user, "utf-8"))
                     
                     # Prevents Your Program from Running a Second Time
                 sys.exit()

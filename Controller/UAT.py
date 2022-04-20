@@ -1,16 +1,11 @@
 import sys
 import time
-
 from time import sleep
-
-# from PyQt6.uic import loadUi
-
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.uic import loadUi
 from PyQt6 import QtWidgets
-
 from datetime import datetime
 import time
 import pandas as pd
@@ -26,55 +21,65 @@ import initialize
 import webbrowser
 
 
-
-# QuestionLabelText = "Problem #1"
-LinkToCanvas="<a href=\"https://canvas.instructure.com/courses/4116250\">'Click here to go to Canvas Page'</a>"
+#This worker class can be run as a seperate thread when run inside the GUI. This way the Model and listiner can run symultaniously with the GUI
 class Worker(QObject):
-
+    
+    #QuestionLabelText is global so the GUI can change depending on the model
     global QuestionLabelText
+    #signals are used to communicate with functions int the GUI class below
     nextQSig = pyqtSignal()  # give worker class a finished signal
     incorrect = pyqtSignal()  # give worker class a finished signal
 
     def __init__(self, nextQ, questionDifficulty, distributions, parent=None):
         QObject.__init__(self, parent=parent)
         self.continue_run = True  # provide a bool run condition for the class
+        #these initialze the model info
         self.nextQ = nextQ
         self.questionDifficulty = questionDifficulty
         self.distributions = distributions
         self.QuestionLabelText = nextQ
         self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
         
-        
+        #the do_work function is called to begin the model and communicate with 
     def do_work(self):
-        
+        #creates a socket s, This is for communications between the AutoGrader
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
         host = socket.gethostname()
         port = 5555
-        
+        #binds the socket to the correct port
         try:
             s.bind((host, port))
         except socket.error as es:
             print(str(es))
-        
+        #begins listining for the autograder
         s.listen(1)   
-
+        #initializes data for the model
         columns = ["student_id", "problem","timestamp","graded","score","sourcehash"]
         attempt = pd.DataFrame(columns = columns)
         i = 1
-        print("waiting")
         global attemptNum
         attemptNum = 1
+        
+        print("waiting")
+
+        #this loop is essentially
+        #1. connect to autograder
+        #2. wait for submission from autograder
+        #3. pull any submissions from the last ~second
+        #4. confirm the submission is the correct one
+        #5. if submission is =100 continue, else back to 2
+        #6. model go brrrr
+        #7. back to 2
         while (self.continue_run):
             
             # waits for notification from autograder, then fetches new submission 
             conn, addr = s.accept()
             print(f"conn from {addr}")
             tmsg = conn.recv(1024)
-            #umsg = conn.recv(1024)
+            umsg = conn.recv(1024)
         
             timestamp = tmsg.decode("utf-8")
-            #username = umsg.decode("utf-8")
+            username = umsg.decode("utf-8")
 
 
             course = "1"
@@ -91,15 +96,24 @@ class Worker(QObject):
                     #check if there is more than one submission
             if num_submissions == 1:
                 submission = submissions.get("0")
-                    #else if more submissions check usernames ADD LATER
+            elif num_submissions == 0:
+                print("no submission recieved, check internet and try again")
+            else :
+                for j in num_submissions :
+                    submission = submission.get("j")
+                    if (submission.get("user_name") == username):
+                        break
+                    
+            #else if more submissions check usernames
 
             print(submission)
             
+            #clean data for the model
             submission.pop("user_name")
             responseSeries = pd.Series(submission)
             attempt = attempt.append(responseSeries, ignore_index=True)
 
-
+        #enter model
             if submission["score"] == "100":                
                 
                 
@@ -137,6 +151,8 @@ class Worker(QObject):
         self.continue_run = False  # set the run condition to false on stop
         print("tutorOff")
 
+
+#this class is the GUI that we run the worker class in.
 class Gui(QWidget):
 
     stop_signal = pyqtSignal()  # make a stop signal to communicate with the worker in another thread
@@ -157,24 +173,25 @@ class Gui(QWidget):
 #         widget.addWidget(nextQScreen)
 #         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+        #creates a thread
         self.thread = QThread()
+        #creates a worker class
         self.worker = Worker(self.nextQ, self.questionDifficulty, self.distributions)
+        #moves the worker to the thread we created
         self.worker.moveToThread(self.thread)
+        #Binds the worker "do_work" function to the thead starting
         self.thread.started.connect(self.worker.do_work)
-        
-
-#         self.worker.finished.connect(self.thread.quit)  # connect the workers finished signal to stop thread
-#         self.worker.finished.connect(self.worker.deleteLater)  # connect the workers finished signal to clean up worker
-#         self.thread.finished.connect(self.thread.deleteLater)  # connect threads finished signal to clean up thread
-        
+        #connects the "NextQuestion" function to the nextQSig signal
         self.worker.nextQSig.connect(self.NextQuestion)
+        #Same thing but inccorect
         self.worker.incorrect.connect(self.IncorrectUpdate)
-
-
+        #starts the thread and in turn the "do_work"function of the worker class
         self.thread.start()
-
+        #erases question Text Label
         self.QuestionTextLabel.setText("")
-
+    
+        #Checks to see if the html for our question exists
+        #if not throw errortext.html
         try:
             textPath = "..\Labs\QuestionText\\" + QuestionLabelText + ".html"
             questionHtml = open(textPath, 'r', encoding='utf-8')
@@ -186,30 +203,23 @@ class Gui(QWidget):
             questionText = questionHtml.read()
             self.QuestionTextLabel.setText(questionText)
 
+        #initializes labels
         self.QuestionNameLabel.setText(QuestionLabelText)
         self.IncorrectLabel.setText("")
         self.CorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + "1")
-
-
-        # Thread:
-        
-        
+        #Show GUI        
         self.show()
-
-
-    def startQuestion(self):
-        print("ye whatevea")
     
-    
+    #updates GUI in case of inccorect attempt
     def IncorrectUpdate(self):
         self.IncorrectLabel.setText("Incorrect, try again bud")
         self.CorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + str(attemptNum))
         self.update
     
+    #updates GUI with new qusetion in case of correct attempt
     def NextQuestion(self):
-        
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
         
         try:
@@ -229,28 +239,19 @@ class Gui(QWidget):
         self.update
 
 
-    def skipQuestion(self):
-        sleep(.25)
-        
 
-
-
-    def goBack(self):
-         sleep(.25)
-#         topicScreen = TopicSelectionScreen()
-#         widget.addWidget(topicScreen)
-#         widget.setCurrentIndex(0)
-
-
+#MAIN
 if __name__ == '__main__':
     global QuestionLabelText, nextQ, questionDifficulty, distributions
     nextQ, questionDifficulty, distributions = initialize.initialize()
+    
+    #initializes nextQ
     nextQ = "lsn1_helloworld"
     QuestionLabelText = nextQ
     path = "..\Labs\\" + nextQ + ".py"
     webbrowser.open(path)
-    
     NextQScreen = "../View/NextQOutputScreen.ui"
+    #starts app
     app = QApplication(sys.argv)
     gui = Gui(nextQ, questionDifficulty, distributions)
     try:
