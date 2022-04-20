@@ -48,89 +48,6 @@ background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb(
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
      </property>
-     <item row="3" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_4"/>
-     </item>
-     <item row="2" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QLabel" name="AttemptLabel">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>10</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Calibri</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QWidget{
-background-color:rgba(255, 255, 255, 0)
-}
-</string>
-         </property>
-         <property name="text">
-          <string>Attempt Number: 0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item row="13" column="1">
-      <spacer name="verticalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
      <item row="12" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
@@ -184,10 +101,9 @@ background-color:rgba(255, 255, 255, 0)
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-border-radius:10px;
-background-color:&quot;linen&quot;
-}
-</string>
+background-color:&quot;linen&quot;;
+margin: 3px;
+}</string>
          </property>
          <property name="text">
           <string>Decrease Difficulty</string>
@@ -232,8 +148,8 @@ background-color:&quot;linen&quot;
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-border-radius:10px;
-background-color:&quot;linen&quot;
+background-color:&quot;linen&quot;;
+margin: 2px;
 }</string>
          </property>
          <property name="text">
@@ -279,8 +195,8 @@ background-color:&quot;linen&quot;
          </property>
          <property name="styleSheet">
           <string notr="true">QWidget{
-border-radius:10px;
-background-color:&quot;linen&quot;
+background-color:&quot;linen&quot;;
+margin: 4px;
 }</string>
          </property>
          <property name="text">
@@ -321,6 +237,121 @@ background-color:&quot;linen&quot;
      </item>
      <item row="9" column="1">
       <layout class="QVBoxLayout" name="verticalLayout_2"/>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_4"/>
+     </item>
+     <item row="4" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>10</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="1">
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="13" column="1">
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="AttemptLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>10</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color:rgba(255, 255, 255, 0);
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Attempt Number: 0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item row="0" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -374,7 +405,7 @@ border-radius:10px;
           <enum>Qt::ScrollBarAlwaysOn</enum>
          </property>
          <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
+          <enum>Qt::ScrollBarAsNeeded</enum>
          </property>
          <property name="sizeAdjustPolicy">
           <enum>QAbstractScrollArea::AdjustToContents</enum>
@@ -391,7 +422,7 @@ border-radius:10px;
             <x>0</x>
             <y>0</y>
             <width>629</width>
-            <height>478</height>
+            <height>412</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -415,22 +446,46 @@ border-radius:10px;
                <height>1000</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <family>Calibri</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
              <property name="styleSheet">
-              <string notr="true">border-radius:10px;</string>
+              <string notr="true">QWidget{
+background-color:&quot;linen&quot;;
+border-radius: 0px;
+}</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
              <property name="frameShadow">
-              <enum>QFrame::Sunken</enum>
+              <enum>QFrame::Plain</enum>
              </property>
              <property name="lineWidth">
-              <number>3</number>
+              <number>0</number>
              </property>
              <property name="midLineWidth">
-              <number>2</number>
+              <number>0</number>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QLabel" name="QuestionTextLabel">
                 <property name="enabled">
@@ -457,7 +512,7 @@ border-radius:10px;
                 <property name="font">
                  <font>
                   <family>Calibri</family>
-                  <pointsize>10</pointsize>
+                  <pointsize>8</pointsize>
                   <weight>50</weight>
                   <italic>false</italic>
                   <bold>false</bold>
@@ -472,24 +527,88 @@ border-radius:10px;
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QWidget{
-border-radius:20px;
-background-color:&quot;linen&quot;
+background-color:&quot;linen&quot;;
+margin:30px;
 }</string>
                 </property>
                 <property name="frameShape">
-                 <enum>QFrame::HLine</enum>
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Sunken</enum>
                 </property>
                 <property name="lineWidth">
-                 <number>3</number>
+                 <number>0</number>
                 </property>
                 <property name="midLineWidth">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;PROBLEM STATEMENT:&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Terrorist groups in the past have created improvised explosive devices in various shapes and sizes. According to the National Counterterrorism Center, the following evacuation distances are appropriate for certain explosive devices.&lt;/p&gt;&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;200&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Explosive Container&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Evacuation Distance (inclusive, in Feet)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Pipe Bomb&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;850&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Suitcase Bomb&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;1850&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Sedan&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;2000&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Cargo Van&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;2750&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Semi-Trailer&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;7000&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;&lt;br/&gt;Write a Python program that asks the user to enter a distance to a device (in feet). Then, referencing the table, print out all of the explosive devices that could potentially reach a target at the specified distance (one per line). If no explosives can reach the specified distance, output &amp;quot;Not in range&amp;quot;.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;EXAMPLES:&lt;/span&gt;&lt;/p&gt;&lt;table border=&quot;1&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; width=&quot;200&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td/&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Example 1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Example 2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Example 3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Input&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;1900&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;2500&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;8000&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Output&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Sedan&lt;br/&gt;Cargo Van&lt;br/&gt;Semi-Trailer&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Cargo Van&lt;br/&gt;Semi-Trailer&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Not in range&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;NOTE: The devices can be listed in any order, so long as only the ones in range are printed.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;div id=&quot;question_138313807_question_text&quot; class=&quot;question_text user_content enhanced&quot;&gt;
+          
+
+&lt;p&gt;&lt;strong&gt;PROBLEM STATEMENT:&lt;br&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Terrorist groups in the past have created improvised explosive devices in various shapes and sizes.&amp;nbsp; According to the National Counterterrorism Center, the following evacuation distances are appropriate for certain explosive devices.&lt;/p&gt;
+&lt;table style=&quot;height: 197px;&quot; border=&quot;1&quot; width=&quot;450&quot;&gt;
+&lt;tbody&gt;
+&lt;tr style=&quot;height: 30px;&quot;&gt;
+&lt;td style=&quot;height: 30px; width: 194px;&quot;&gt;&lt;strong&gt;Explosive Container&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&quot;height: 30px; width: 366px;&quot;&gt;&lt;strong&gt;Evacuation Distance (inclusive, in Feet)&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style=&quot;height: 30px;&quot;&gt;
+&lt;td style=&quot;height: 30px; width: 194px;&quot;&gt;Pipe Bomb&lt;/td&gt;
+&lt;td style=&quot;height: 30px; width: 366px;&quot;&gt;850&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style=&quot;height: 30px;&quot;&gt;
+&lt;td style=&quot;height: 30px; width: 194px;&quot;&gt;Suitcase Bomb&lt;/td&gt;
+&lt;td style=&quot;height: 30px; width: 366px;&quot;&gt;1850&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style=&quot;height: 30px;&quot;&gt;
+&lt;td style=&quot;height: 30px; width: 194px;&quot;&gt;Sedan&lt;/td&gt;
+&lt;td style=&quot;height: 30px; width: 366px;&quot;&gt;2000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style=&quot;height: 30px;&quot;&gt;
+&lt;td style=&quot;height: 30px; width: 194px;&quot;&gt;Cargo Van&lt;/td&gt;
+&lt;td style=&quot;height: 30px; width: 366px;&quot;&gt;2750&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr style=&quot;height: 30px;&quot;&gt;
+&lt;td style=&quot;height: 30px; width: 100px;&quot;&gt;Semi-Trailer&lt;/td&gt;
+&lt;td style=&quot;height: 30px; width: 300px;&quot;&gt;7000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;br&gt;Write a Python program that asks the user to enter a distance to a device (in feet).&amp;nbsp; Then, referencing the table, print out all of the explosive devices that could potentially reach a target at the specified distance (one per line).&amp;nbsp; If no explosives can reach the specified distance, output &quot;Not in range&quot;.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EXAMPLES:&lt;/strong&gt;&lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;table border=&quot;1&quot; width=&quot;400&quot;&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Example 1&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Example 2&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Example 3&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Input&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;1900&lt;/td&gt;
+&lt;td&gt;2500&lt;/td&gt;
+&lt;td&gt;8000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Output&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Sedan&lt;br&gt;Cargo Van&lt;br&gt;Semi-Trailer&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Cargo Van&lt;br&gt;Semi-Trailer&lt;/p&gt;
+&lt;/td&gt;
+&lt;td&gt;Not in range&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;NOTE:&amp;nbsp; The devices can be listed in any order, so long as only the ones in range are printed.&lt;/p&gt;
+      &lt;/div&gt;</string>
                 </property>
                 <property name="textFormat">
-                 <enum>Qt::RichText</enum>
+                 <enum>Qt::AutoText</enum>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
@@ -501,7 +620,13 @@ background-color:&quot;linen&quot;
                  <bool>true</bool>
                 </property>
                 <property name="margin">
-                 <number>30</number>
+                 <number>0</number>
+                </property>
+                <property name="indent">
+                 <number>0</number>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse</set>
                 </property>
                </widget>
               </item>
@@ -529,38 +654,6 @@ background-color:&quot;linen&quot;
         </spacer>
        </item>
       </layout>
-     </item>
-     <item row="4" column="1">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::MinimumExpanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>10</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="1" column="1">
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
@@ -675,15 +768,16 @@ color:rgb(0, 170, 0)
        </property>
        <property name="styleSheet">
         <string notr="true">QWidget{
-border-radius:10px;
-background-color:&quot;linen&quot;
+border-radius: 0px;
+background-color:&quot;linen&quot;;
+margin: 5px;
 }</string>
        </property>
        <property name="text">
         <string>Question Title</string>
        </property>
        <property name="margin">
-        <number>5</number>
+        <number>0</number>
        </property>
       </widget>
      </item>
