@@ -225,7 +225,8 @@ class Gui(QWidget):
         try:
             textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
             questionHtml = open(textPath, 'r', encoding='utf-8')
-            questionText = questionHtml.read()
+            #all the extra breaks at the end are to fix a problem where the question text was being cut off
+            questionText = questionHtml.read() + "<br><br><br><br><br><br><br><br><br>"
             self.QuestionTextLabel.setText(questionText)
         except:
             textPath = "..\Labs\QuestionText\ErrorText.html"
