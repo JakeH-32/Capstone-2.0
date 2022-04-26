@@ -12,4 +12,5 @@ from cs110 import autograder
 
     
 
-
+def pig_latin(string):
+    if 
