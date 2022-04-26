@@ -165,6 +165,88 @@ class Gui(QWidget):
         self.questionDifficulty = questionDifficulty
         self.distributions = distributions
         self.initUI()
+        self.DecreaseButton.clicked.connect(self.decrease)
+        self.IncreaseButton.clicked.connect(self.increase)
+        self.MaintainButton.clicked.connect(self.maintain)
+        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
+    
+    
+    def decrease(self):
+        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
+        self.worker.QuestionLabelText = mb.reduceDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
+        self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
+        self.nextQ = self.worker.QuestionLabelText
+        self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
+        self.path = "..\Labs\\" + self.nextQ + ".py"
+        webbrowser.open(self.path)
+        
+        try:
+            textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        except:
+            textPath = "..\Labs\QuestionText\ErrorText.html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        
+        self.CorrectLabel.setText("This one should be a little easier!")
+        self.IncorrectLabel.setText("")
+        self.AttemptLabel.setText("Attempt Number: " + str(1))
+        self.update
+
+
+    def increase(self):
+        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
+        self.worker.QuestionLabelText = mb.increaseDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
+        self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
+        self.nextQ = self.worker.QuestionLabelText
+        self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
+        self.path = "..\Labs\\" + self.nextQ + ".py"
+        webbrowser.open(self.path)
+        
+        try:
+            textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        except:
+            textPath = "..\Labs\QuestionText\ErrorText.html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        
+        self.CorrectLabel.setText("This one should be a little harder!")
+        self.IncorrectLabel.setText("")
+        self.AttemptLabel.setText("Attempt Number: " + str(1))
+        self.update
+        
+
+    def maintain(self):
+        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
+        self.worker.QuestionLabelText = mb.maintainDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
+        self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
+        self.nextQ = self.worker.QuestionLabelText
+        self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
+        self.path = "..\Labs\\" + self.nextQ + ".py"
+        webbrowser.open(self.path)
+        
+        try:
+            textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        except:
+            textPath = "..\Labs\QuestionText\ErrorText.html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        
+        self.CorrectLabel.setText("This one should be similar in difficulty!")
+        self.IncorrectLabel.setText("")
+        self.AttemptLabel.setText("Attempt Number: " + str(1))
+        self.update
 
     def initUI(self):
 
@@ -247,7 +329,6 @@ if __name__ == '__main__':
     nextQ, questionDifficulty, distributions = initialize.initialize()
     
     #initializes nextQ
-    nextQ = "lsn1_helloworld"
     QuestionLabelText = nextQ
     path = "..\Labs\\" + nextQ + ".py"
     webbrowser.open(path)

@@ -1,7 +1,7 @@
-import pandas as pd
 import numpy as np
 import random
 import math
+import pandas as pd
 
 
 def timefunction(series):
@@ -215,7 +215,7 @@ def reduceDifficulty(lastQ_id, difficulty_values):
 
     '''
     # get the difficulty value of the last question completed
-    diff = float(difficulty_values.loc[difficulty_values.problem == lastQ_id].difficulty)
+    # diff = float(difficulty_values.loc[difficulty_values.problem == lastQ_id].difficulty)
     index = difficulty_values.loc[difficulty_values.problem == lastQ_id].index[0]  # find Q index
     questionsFromCurrent = 3  # Initializing the range of questions from the current
     if index < questionsFromCurrent:
@@ -309,19 +309,21 @@ def nextQuestion(lastQ_id, difficulty_values, problemDists, questionData):
         return nextQ
 
 
-def startingQ(data, questionDifficulty):
+def startingQ(questionDifficulty):
     ''' Gets starting question
 
     Args:
-        data (DF): the entire original data set
         questionDifficulty (DF): a dataframe of each question with its correspond 0-1 difficulty
 
     Returns:
         problem: the problem title of the next assigned problem
 
     '''
+    quarterOfQs = int(np.ceil(len(questionDifficulty) * .25))
     problems = len(questionDifficulty)
-    problemNum = int(math.floor(problems/2))
-    startingProblem = questionDifficulty.iloc[problemNum].problem
+    middleNum = int(math.floor(problems/2))
+    viableQuestions = questionDifficulty[middleNum - quarterOfQs: middleNum + quarterOfQs]
+
+    startingProblem = random.choice(viableQuestions.problem.values)
 
     return startingProblem
