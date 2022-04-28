@@ -40,6 +40,7 @@ class Worker(QObject):
         self.QuestionLabelText = nextQ
         self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
         
+        
         #the do_work function is called to begin the model and communicate with 
     def do_work(self):
         #creates a socket s, This is for communications between the AutoGrader
@@ -164,6 +165,7 @@ class Gui(QWidget):
         self.nextQ = nextQ
         self.questionDifficulty = questionDifficulty
         self.distributions = distributions
+        self.numQs = int(len(questionDifficulty))
         self.initUI()
         self.DecreaseButton.clicked.connect(self.decrease)
         self.IncreaseButton.clicked.connect(self.increase)
@@ -176,6 +178,7 @@ class Gui(QWidget):
         self.worker.QuestionLabelText = mb.reduceDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
         self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
         self.nextQ = self.worker.QuestionLabelText
+        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.nextQ][0])
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
         self.path = "..\Labs\\" + self.nextQ + ".py"
         webbrowser.open(self.path)
@@ -194,6 +197,7 @@ class Gui(QWidget):
         self.CorrectLabel.setText("This one should be a little easier!")
         self.IncorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + str(1))
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.update
 
 
@@ -202,6 +206,7 @@ class Gui(QWidget):
         self.worker.QuestionLabelText = mb.increaseDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
         self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
         self.nextQ = self.worker.QuestionLabelText
+        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.nextQ][0])
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
         self.path = "..\Labs\\" + self.nextQ + ".py"
         webbrowser.open(self.path)
@@ -219,6 +224,7 @@ class Gui(QWidget):
         
         self.CorrectLabel.setText("This one should be a little harder!")
         self.IncorrectLabel.setText("")
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.AttemptLabel.setText("Attempt Number: " + str(1))
         self.update
         
@@ -228,6 +234,7 @@ class Gui(QWidget):
         self.worker.QuestionLabelText = mb.maintainDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
         self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
         self.nextQ = self.worker.QuestionLabelText
+        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.nextQ][0])
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
         self.path = "..\Labs\\" + self.nextQ + ".py"
         webbrowser.open(self.path)
@@ -242,7 +249,7 @@ class Gui(QWidget):
             questionHtml = open(textPath, 'r', encoding='utf-8')
             questionText = questionHtml.read()
             self.QuestionTextLabel.setText(questionText)
-        
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.CorrectLabel.setText("This one should be similar in difficulty!")
         self.IncorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + str(1))
@@ -287,6 +294,8 @@ class Gui(QWidget):
 
         #initializes labels
         self.QuestionNameLabel.setText(QuestionLabelText)
+        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == QuestionLabelText][0])
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.IncorrectLabel.setText("")
         self.CorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + "1")
@@ -298,11 +307,13 @@ class Gui(QWidget):
         self.IncorrectLabel.setText("Incorrect, try again bud")
         self.CorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + str(attemptNum))
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.update
     
     #updates GUI with new qusetion in case of correct attempt
     def NextQuestion(self):
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
+        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.worker.QuestionLabelText][0])
         
         try:
             textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
@@ -318,6 +329,7 @@ class Gui(QWidget):
         
         self.CorrectLabel.setText("Great Job! Try this one")
         self.IncorrectLabel.setText("")
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.AttemptLabel.setText("Attempt Number: " + str(attemptNum))
         self.update
 
