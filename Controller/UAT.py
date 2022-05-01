@@ -1,3 +1,4 @@
+# Import all packages used
 import sys
 import time
 from time import sleep
@@ -5,17 +6,9 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 from PyQt6.uic import loadUi
-from PyQt6 import QtWidgets
-from datetime import datetime
-import time
 import pandas as pd
 import socket
-import numpy as np
-import datetime
-import sys
 import requests
-import json
-import threading
 import modelBuilder as mb
 import initialize
 import webbrowser
@@ -33,11 +26,14 @@ class Worker(QObject):
     def __init__(self, nextQ, questionDifficulty, distributions, parent=None):
         QObject.__init__(self, parent=parent)
         self.continue_run = True  # provide a bool run condition for the class
+        
         #these initialze the model info
         self.nextQ = nextQ
         self.questionDifficulty = questionDifficulty
         self.distributions = distributions
         self.QuestionLabelText = nextQ
+        
+        # finds the questions index so we can remove it from the viable questions later
         self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
         
         
@@ -54,10 +50,9 @@ class Worker(QObject):
             print(str(es))
         #begins listining for the autograder
         s.listen(1)   
-        #initializes data for the model
+        #initializes data collection df for the model
         columns = ["student_id", "problem","timestamp","graded","score","sourcehash"]
         attempt = pd.DataFrame(columns = columns)
-        i = 1
         global attemptNum
         attemptNum = 1
         
@@ -71,6 +66,7 @@ class Worker(QObject):
         #5. if submission is =100 continue, else back to 2
         #6. model go brrrr
         #7. back to 2
+        
         while (self.continue_run):
             
             # waits for notification from autograder, then fetches new submission 
@@ -114,21 +110,22 @@ class Worker(QObject):
             responseSeries = pd.Series(submission)
             attempt = attempt.append(responseSeries, ignore_index=True)
 
-        #enter model
             if submission["score"] == "100":                
-                
-                
-                
+                # once they get a 100, clean up their response data df                
                 attempt.graded = attempt.graded.astype(int)
                 attempt.score = attempt.score.astype(float)
                 qData = mb.convertRawtoClean(attempt)
+                
+                #using that data, determine the next question
                 self.nextQ = mb.nextQuestion(self.nextQ, self.questionDifficulty, self.distributions, qData)
+                
+                # drop that previous question from the viable questions
                 self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
 
-                # code to remove that question from the list of viable next questions
+                # now finds the next questions index so it can later drop it from viable Qs
                 self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
 
-                # set that nextQ to the problem then open that question
+                # find the python file with that question name then open it
                 path = "..\Labs\\" + self.nextQ + ".py"
                 webbrowser.open(path)
 
@@ -137,8 +134,10 @@ class Worker(QObject):
                 attempt = pd.DataFrame(columns = columns)
                 submission = ""
 
-                
+                # gives the GUI the next question name
                 self.QuestionLabelText = self.nextQ
+                
+                # resets attempt number
                 attemptNum = 1
                 self.nextQSig.emit()
                 
@@ -162,83 +161,80 @@ class Gui(QWidget):
     def __init__(self, nextQ, questionDifficulty, distributions):
         super(Gui, self).__init__()
         loadUi(NextQScreen, self)
+        
+        # initializes the dfs, next question, and number of questions
         self.nextQ = nextQ
         self.questionDifficulty = questionDifficulty
+        self.dummyQuestionDifficulty = questionDifficulty
         self.distributions = distributions
         self.numQs = int(len(questionDifficulty))
+        
+        # if we choose to hide the difficulty, this will ensure it doesnt show up
+        if not showDifficulty:
+            self.DifficultyLabel.hide()
+        
+        # displays intial GUI screen and buttons
         self.initUI()
         self.DecreaseButton.clicked.connect(self.decrease)
         self.IncreaseButton.clicked.connect(self.increase)
         self.MaintainButton.clicked.connect(self.maintain)
-        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
     
     
     def decrease(self):
-        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
-        self.worker.QuestionLabelText = mb.reduceDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
-        self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
-        self.nextQ = self.worker.QuestionLabelText
-        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.nextQ][0])
-        self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
-        self.path = "..\Labs\\" + self.nextQ + ".py"
-        webbrowser.open(self.path)
-        
-        try:
-            textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
-            questionHtml = open(textPath, 'r', encoding='utf-8')
-            questionText = questionHtml.read()
-            self.QuestionTextLabel.setText(questionText)
-        except:
-            textPath = "..\Labs\QuestionText\ErrorText.html"
-            questionHtml = open(textPath, 'r', encoding='utf-8')
-            questionText = questionHtml.read()
-            self.QuestionTextLabel.setText(questionText)
-        
-        self.CorrectLabel.setText("This one should be a little easier!")
-        self.IncorrectLabel.setText("")
-        self.AttemptLabel.setText("Attempt Number: " + str(1))
-        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
-        self.update
+        """
+        Once someone clicks the "Decrease Difficulty" button, this finds the 
+            decreased-difficulty next problem
+        """
+        self.findProblem("decrease")
 
 
     def increase(self):
-        self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
-        self.worker.QuestionLabelText = mb.increaseDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
-        self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
-        self.nextQ = self.worker.QuestionLabelText
-        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.nextQ][0])
-        self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
-        self.path = "..\Labs\\" + self.nextQ + ".py"
-        webbrowser.open(self.path)
-        
-        try:
-            textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
-            questionHtml = open(textPath, 'r', encoding='utf-8')
-            questionText = questionHtml.read()
-            self.QuestionTextLabel.setText(questionText)
-        except:
-            textPath = "..\Labs\QuestionText\ErrorText.html"
-            questionHtml = open(textPath, 'r', encoding='utf-8')
-            questionText = questionHtml.read()
-            self.QuestionTextLabel.setText(questionText)
-        
-        self.CorrectLabel.setText("This one should be a little harder!")
-        self.IncorrectLabel.setText("")
-        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
-        self.AttemptLabel.setText("Attempt Number: " + str(1))
-        self.update
+        """
+        Once someone clicks the "Increase Difficulty" button, this finds the 
+            increased-difficulty next problem
+        """
+        self.findProblem("increase")
         
 
     def maintain(self):
+        """
+        Once someone clicks the "Maintain Difficulty" button, this finds the 
+            maintained-difficulty next problem
+        """
+        self.findProblem("maintain")
+
+
+    def findProblem(self, direction):
+        """
+        Finds the next problem based on the direction given
+
+        Parameters
+        ----------
+            direction : str
+                direction in which to change difficulty
+        """
+        # finds the last question's index for dropping purposes
         self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
-        self.worker.QuestionLabelText = mb.maintainDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
+        
+        # changes the problem difficulty according to the direction given
+        if direction == "decrease":
+            self.worker.QuestionLabelText = mb.reduceDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
+        elif direction == "increase":
+            self.worker.QuestionLabelText = mb.increaseDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
+        else:
+            self.worker.QuestionLabelText = mb.maintainDifficulty(self.worker.QuestionLabelText, self.questionDifficulty)
+
+        # removes that question from the viable Qs
         self.questionDifficulty = self.questionDifficulty.drop([self.lastQ_index]).reset_index().drop(["index"], axis=1)
+        
+        # determines how that problem ranks overall then displays problem in GUI and opens file
         self.nextQ = self.worker.QuestionLabelText
         self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.nextQ][0])
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
         self.path = "..\Labs\\" + self.nextQ + ".py"
         webbrowser.open(self.path)
         
+        # puts the problem description into the GUI
         try:
             textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
             questionHtml = open(textPath, 'r', encoding='utf-8')
@@ -249,18 +245,23 @@ class Gui(QWidget):
             questionHtml = open(textPath, 'r', encoding='utf-8')
             questionText = questionHtml.read()
             self.QuestionTextLabel.setText(questionText)
-        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
-        self.CorrectLabel.setText("This one should be similar in difficulty!")
+        
+        # Labels the problem with some necessary info and helpful words of encouragement
+        if direction == "decrease":
+            self.CorrectLabel.setText("This one should be a little easier!")
+        elif direction == "increase":
+            self.CorrectLabel.setText("This one should be a little harder!")
+        else:
+            self.CorrectLabel.setText("This one should be similar in difficulty!")
         self.IncorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + str(1))
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.update
+
 
     def initUI(self):
 
         sleep(.1)
-        #nextQScreen = NextQOutputScreen()
-#         widget.addWidget(nextQScreen)
-#         widget.setCurrentIndex(widget.currentIndex() + 1)
 
         #creates a thread
         self.thread = QThread()
@@ -281,6 +282,7 @@ class Gui(QWidget):
     
         #Checks to see if the html for our question exists
         #if not throw errortext.html
+        self.nextQ = QuestionLabelText
         try:
             textPath = "..\Labs\QuestionText\\" + QuestionLabelText + ".html"
             questionHtml = open(textPath, 'r', encoding='utf-8')
@@ -294,15 +296,15 @@ class Gui(QWidget):
 
         #initializes labels
         self.QuestionNameLabel.setText(QuestionLabelText)
-        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == QuestionLabelText][0])
+        self.rank = int(self.dummyQuestionDifficulty.index[self.dummyQuestionDifficulty.problem == QuestionLabelText][0])
         self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.IncorrectLabel.setText("")
         self.CorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + "1")
-        #Show GUI        
+        #Show GUI
         self.show()
     
-    #updates GUI in case of inccorect attempt
+    #updates GUI in case of incorrect attempt
     def IncorrectUpdate(self):
         self.IncorrectLabel.setText("Incorrect, try again bud")
         self.CorrectLabel.setText("")
@@ -313,7 +315,7 @@ class Gui(QWidget):
     #updates GUI with new qusetion in case of correct attempt
     def NextQuestion(self):
         self.QuestionNameLabel.setText(self.worker.QuestionLabelText)
-        self.rank = int(self.questionDifficulty.index[self.questionDifficulty.problem == self.worker.QuestionLabelText][0])
+        self.rank = int(self.dummyQuestionDifficulty.index[self.dummyQuestionDifficulty.problem == self.worker.QuestionLabelText][0])
         
         try:
             textPath = "..\Labs\QuestionText\\" + self.worker.QuestionLabelText + ".html"
@@ -337,14 +339,19 @@ class Gui(QWidget):
 
 #MAIN
 if __name__ == '__main__':
+    # Change to True if you want to show the difficulty in the GUI
+    showDifficulty = False
+    
+    #initializes model dat and the nextQ
     global QuestionLabelText, nextQ, questionDifficulty, distributions
     nextQ, questionDifficulty, distributions = initialize.initialize()
     
-    #initializes nextQ
+    #initializes the GUI and its given problem and opens the problem
     QuestionLabelText = nextQ
     path = "..\Labs\\" + nextQ + ".py"
     webbrowser.open(path)
     NextQScreen = "../View/NextQOutputScreen.ui"
+    
     #starts app
     app = QApplication(sys.argv)
     gui = Gui(nextQ, questionDifficulty, distributions)
