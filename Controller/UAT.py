@@ -52,7 +52,7 @@ class Worker(QObject):
         s.listen(1)   
         #initializes data collection df for the model
         columns = ["student_id", "problem","timestamp","graded","score","sourcehash"]
-        attempt = pd.DataFrame(columns = columns)
+        self.attempt = pd.DataFrame(columns = columns)
         global attemptNum
         attemptNum = 1
         
@@ -62,7 +62,7 @@ class Worker(QObject):
         #1. connect to autograder
         #2. wait for submission from autograder
         #3. pull any submissions from the last ~second
-        #4. confirm the submission is the correct one
+        #4. confirm the submission is the correct one (using the problem name and potentially username)
         #5. if submission is =100 continue, else back to 2
         #6. model go brrrr
         #7. back to 2
@@ -108,13 +108,13 @@ class Worker(QObject):
             #clean data for the model
             submission.pop("user_name")
             responseSeries = pd.Series(submission)
-            attempt = attempt.append(responseSeries, ignore_index=True)
+            self.attempt = self.attempt.append(responseSeries, ignore_index=True)
 
             if submission["score"] == "100":                
                 # once they get a 100, clean up their response data df                
-                attempt.graded = attempt.graded.astype(int)
-                attempt.score = attempt.score.astype(float)
-                qData = mb.convertRawtoClean(attempt)
+                self.attempt.graded = self.attempt.graded.astype(int)
+                self.attempt.score = self.attempt.score.astype(float)
+                qData = mb.convertRawtoClean(self.attempt)
                 
                 #using that data, determine the next question
                 self.nextQ = mb.nextQuestion(self.nextQ, self.questionDifficulty, self.distributions, qData)
@@ -131,7 +131,7 @@ class Worker(QObject):
 
 
                 # reset attempt and submission
-                attempt = pd.DataFrame(columns = columns)
+                self.attempt = pd.DataFrame(columns = columns)
                 submission = ""
 
                 # gives the GUI the next question name
@@ -256,6 +256,7 @@ class Gui(QWidget):
         self.IncorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + str(1))
         self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
+        self.worker.attempt = self.worker.attempt[0:0]
         self.update
 
 
@@ -340,7 +341,7 @@ class Gui(QWidget):
 #MAIN
 if __name__ == '__main__':
     # Change to True if you want to show the difficulty in the GUI
-    showDifficulty = False
+    showDifficulty = True
     
     #initializes model dat and the nextQ
     global QuestionLabelText, nextQ, questionDifficulty, distributions
