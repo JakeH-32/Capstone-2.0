@@ -14,9 +14,13 @@ import initialize
 import webbrowser
 
 
-#This worker class can be run as a seperate thread when run inside the GUI. This way the Model and listiner can run symultaniously with the GUI
+
 class Worker(QObject):
-    
+    """
+    This worker class can be run as a seperate thread inside the GUI.
+    This way the Model and listiner (which are run by the worker)) can run symultaniously with the GUI
+    A Qobject is something from pyqt6 that makes it work with threads and whatnot
+    """
     #QuestionLabelText is global so the GUI can change depending on the model
     global QuestionLabelText
     #signals are used to communicate with functions int the GUI class below
@@ -37,8 +41,11 @@ class Worker(QObject):
         self.lastQ_index = self.questionDifficulty[self.questionDifficulty['problem'] == self.nextQ].index[0]
         
         
-        #the do_work function is called to begin the model and communicate with 
+
     def do_work(self):
+        """
+        The do_work function is all the function of the tutor. The worker class runs this function to start the UAT
+        """ 
         #creates a socket s, This is for communications between the AutoGrader
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         host = socket.gethostname()
@@ -53,8 +60,7 @@ class Worker(QObject):
         #initializes data collection df for the model
         columns = ["student_id", "problem","timestamp","graded","score","sourcehash"]
         self.attempt = pd.DataFrame(columns = columns)
-        global attemptNum
-        attemptNum = 1
+        self.attemptNum = 1
         
         print("waiting")
 
@@ -138,23 +144,27 @@ class Worker(QObject):
                 self.QuestionLabelText = self.nextQ
                 
                 # resets attempt number
-                attemptNum = 1
+                self.attemptNum = 1
                 self.nextQSig.emit()
                 
             else:
 
-                attemptNum = attemptNum + 1
+                self.attemptNum = self.attemptNum + 1
                 self.incorrect.emit()
                 
-    
+    #turns the tutor off
     def stop(self):
         self.continue_run = False  # set the run condition to false on stop
         print("tutorOff")
 
 
 #this class is the GUI that we run the worker class in.
-class Gui(QWidget):
 
+class Gui(QWidget):
+    """
+    This gui class is a classic pyqt gui that runs all the buttons and lables and whatnots
+    Within this gui, the worker class exists on a seperate thread to allow for buttons and gui function while the model runs in the background
+    """
     stop_signal = pyqtSignal()  # make a stop signal to communicate with the worker in another thread
     global QuestionLabelText
 
@@ -179,6 +189,51 @@ class Gui(QWidget):
         self.IncreaseButton.clicked.connect(self.increase)
         self.MaintainButton.clicked.connect(self.maintain)
     
+    
+    def initUI(self):
+
+        sleep(.1)
+
+        #creates a thread
+        self.thread = QThread()
+        #creates a worker class
+        self.worker = Worker(self.nextQ, self.questionDifficulty, self.distributions)
+        #moves the worker to the thread we created
+        self.worker.moveToThread(self.thread)
+        #Binds the worker "do_work" function to the thead starting
+        self.thread.started.connect(self.worker.do_work)
+        #connects the "NextQuestion" function to the nextQSig signal
+        self.worker.nextQSig.connect(self.NextQuestion)
+        #Same thing but inccorect
+        self.worker.incorrect.connect(self.IncorrectUpdate)
+        #starts the thread and in turn the "do_work"function of the worker class
+        self.thread.start()
+        #erases question Text Label
+        self.QuestionTextLabel.setText("")
+    
+        #Checks to see if the html for our question exists
+        #if not throw errortext.html
+        self.nextQ = QuestionLabelText
+        try:
+            textPath = "..\Labs\QuestionText\\" + QuestionLabelText + ".html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+        except:
+            textPath = "..\Labs\QuestionText\ErrorText.html"
+            questionHtml = open(textPath, 'r', encoding='utf-8')
+            questionText = questionHtml.read()
+            self.QuestionTextLabel.setText(questionText)
+
+        #initializes labels
+        self.QuestionNameLabel.setText(QuestionLabelText)
+        self.rank = int(self.dummyQuestionDifficulty.index[self.dummyQuestionDifficulty.problem == QuestionLabelText][0])
+        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
+        self.IncorrectLabel.setText("")
+        self.CorrectLabel.setText("")
+        self.AttemptLabel.setText("Attempt Number: " + "1")
+        #Show GUI
+        self.show()
     
     def decrease(self):
         """
@@ -257,59 +312,16 @@ class Gui(QWidget):
         self.AttemptLabel.setText("Attempt Number: " + str(1))
         self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.worker.attempt = self.worker.attempt[0:0]
+        self.worker.nextQ = self.nextQ
+        self.worker.attemptNum = 1
         self.update
 
-
-    def initUI(self):
-
-        sleep(.1)
-
-        #creates a thread
-        self.thread = QThread()
-        #creates a worker class
-        self.worker = Worker(self.nextQ, self.questionDifficulty, self.distributions)
-        #moves the worker to the thread we created
-        self.worker.moveToThread(self.thread)
-        #Binds the worker "do_work" function to the thead starting
-        self.thread.started.connect(self.worker.do_work)
-        #connects the "NextQuestion" function to the nextQSig signal
-        self.worker.nextQSig.connect(self.NextQuestion)
-        #Same thing but inccorect
-        self.worker.incorrect.connect(self.IncorrectUpdate)
-        #starts the thread and in turn the "do_work"function of the worker class
-        self.thread.start()
-        #erases question Text Label
-        self.QuestionTextLabel.setText("")
-    
-        #Checks to see if the html for our question exists
-        #if not throw errortext.html
-        self.nextQ = QuestionLabelText
-        try:
-            textPath = "..\Labs\QuestionText\\" + QuestionLabelText + ".html"
-            questionHtml = open(textPath, 'r', encoding='utf-8')
-            questionText = questionHtml.read()
-            self.QuestionTextLabel.setText(questionText)
-        except:
-            textPath = "..\Labs\QuestionText\ErrorText.html"
-            questionHtml = open(textPath, 'r', encoding='utf-8')
-            questionText = questionHtml.read()
-            self.QuestionTextLabel.setText(questionText)
-
-        #initializes labels
-        self.QuestionNameLabel.setText(QuestionLabelText)
-        self.rank = int(self.dummyQuestionDifficulty.index[self.dummyQuestionDifficulty.problem == QuestionLabelText][0])
-        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
-        self.IncorrectLabel.setText("")
-        self.CorrectLabel.setText("")
-        self.AttemptLabel.setText("Attempt Number: " + "1")
-        #Show GUI
-        self.show()
     
     #updates GUI in case of incorrect attempt
     def IncorrectUpdate(self):
         self.IncorrectLabel.setText("Incorrect, try again bud")
         self.CorrectLabel.setText("")
-        self.AttemptLabel.setText("Attempt Number: " + str(attemptNum))
+        self.AttemptLabel.setText("Attempt Number: " + str(self.worker.attemptNum))
         self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
         self.update
     
@@ -333,7 +345,7 @@ class Gui(QWidget):
         self.CorrectLabel.setText("Great Job! Try this one")
         self.IncorrectLabel.setText("")
         self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
-        self.AttemptLabel.setText("Attempt Number: " + str(attemptNum))
+        self.AttemptLabel.setText("Attempt Number: " + str(self.worker.attemptNum))
         self.update
 
 
