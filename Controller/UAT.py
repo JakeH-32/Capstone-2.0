@@ -228,7 +228,7 @@ class Gui(QWidget):
         #initializes labels
         self.QuestionNameLabel.setText(QuestionLabelText)
         self.rank = int(self.dummyQuestionDifficulty.index[self.dummyQuestionDifficulty.problem == QuestionLabelText][0])
-        self.DifficultyLabel.setText("Difficult: " + str(self.rank) + " out of " + str(self.numQs))
+        self.DifficultyLabel.setText("Difficulty: " + str(self.rank) + " out of " + str(self.numQs))
         self.IncorrectLabel.setText("")
         self.CorrectLabel.setText("")
         self.AttemptLabel.setText("Attempt Number: " + "1")
@@ -353,7 +353,7 @@ class Gui(QWidget):
 #MAIN
 if __name__ == '__main__':
     # Change to True if you want to show the difficulty in the GUI
-    showDifficulty = True
+    showDifficulty = False
     
     #initializes model dat and the nextQ
     global QuestionLabelText, nextQ, questionDifficulty, distributions
