@@ -319,10 +319,8 @@ def startingQ(questionDifficulty):
         problem: the problem title of the next assigned problem
 
     '''
-    quarterOfQs = int(np.ceil(len(questionDifficulty) * .25))
-    problems = len(questionDifficulty)
-    middleNum = int(math.floor(problems/2))
-    viableQuestions = questionDifficulty[middleNum - quarterOfQs: middleNum + quarterOfQs]
+    fivePercentOfQs = int(np.ceil(len(questionDifficulty) * .05))
+    viableQuestions = questionDifficulty[0 : fivePercentOfQs]
 
     startingProblem = random.choice(viableQuestions.problem.values)
 
