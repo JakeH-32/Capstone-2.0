@@ -353,7 +353,7 @@ class Gui(QWidget):
 #MAIN
 if __name__ == '__main__':
     # Change to True if you want to show the difficulty in the GUI
-    showDifficulty = True
+    showDifficulty = False
     
     #initializes model dat and the nextQ
     global QuestionLabelText, nextQ, questionDifficulty, distributions
