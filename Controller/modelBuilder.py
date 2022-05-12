@@ -316,11 +316,12 @@ def startingQ(questionDifficulty):
         questionDifficulty (DF): a dataframe of each question with its correspond 0-1 difficulty
 
     Returns:
-        problem: the problem title of the next assigned problem
+        problem (string): the problem title of the next assigned problem
 
     '''
     fivePercentOfQs = int(np.ceil(len(questionDifficulty) * .05))
-    viableQuestions = questionDifficulty[0 : fivePercentOfQs]
+    middle = int(np.ceil(len(questionDifficulty) / 2))
+    viableQuestions = questionDifficulty[middle - fivePercentOfQs : middle + fivePercentOfQs]
 
     startingProblem = random.choice(viableQuestions.problem.values)
 
