@@ -1,0 +1,72 @@
+<div>
+<p><strong>PROBLEM STATEMENT:<br /></strong></p>
+<p>Write an algorithm that gets a decimal GPA, APA, and MPA from the user (in that order). You may assume that all inputs are non-negative whole numbers.</p>
+<p>It then reports which meritorious list the cadet is on. If the GPA is equal to or above 3.0, the cadet is on the &ldquo;Dean&rsquo;s List&rdquo;, and if the APA is equal to or above 3.0, the cadet is on the &ldquo;Athletic Director&rsquo;s List&rdquo;, and if the MPA is equal to or above 3.0, the cadet is on the &ldquo;Commandant&rsquo;s List&rdquo;. Finally, if the cadet qualifies for all three individual lists, then the cadet is on the &ldquo;Superintendent&rsquo;s List&rdquo;. The algorithm should report all the lists the cadet is on (in the order defined above), unless the cadet is on the Superintendents List, in which case, it should report only, &ldquo;Superintendent&rsquo;s List&rdquo;.</p>
+<table width="1">
+<thead>
+<tr>
+<th>No List</th>
+<th>Dean's List</th>
+<th>Athletic Director's List</th>
+<th>Commandant's List</th>
+<th>Superintendent's List</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPA</td>
+<td>&lt; 3.0</td>
+<td>&gt;= 3.0</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>&gt;= 3.0</td>
+</tr>
+<tr>
+<td>APA</td>
+<td>&lt; 3.0</td>
+<td>n/a</td>
+<td>&gt;= 3.0</td>
+<td>n/a</td>
+<td>&gt;= 3.0</td>
+</tr>
+<tr>
+<td>MPA</td>
+<td>&lt; 3.0</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>&gt;= 3.0</td>
+<td>&gt;= 3.0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>EXAMPLES:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Example 1</th>
+<th>Example 2</th>
+<th>Example 3</th>
+<th>Example 4</th>
+<th>Example 5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input</td>
+<td>2.8<br />2.6<br />2.5</td>
+<td>3.5<br />3.2<br />2.8</td>
+<td>3.3<br />2.8<br />3.4</td>
+<td>3.6<br />3.8<br />3.2</td>
+<td>2.8<br />3.5<br />3.8</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>No List</td>
+<td>Dean's List<br />Athletic Director's List</td>
+<td>Dean's List<br />Commandant's List</td>
+<td>Superintendent's List</td>
+<td>Athletic Director's List<br />Commandant's List</td>
+</tr>
+</tbody>
+</table>
+</div>

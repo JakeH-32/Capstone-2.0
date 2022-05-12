@@ -1,0 +1,60 @@
+<div>
+<p>&nbsp;</p>
+<p><strong>PROBLEM STATEMENT:<br /></strong></p>
+<p>The 10th Communications Squadron (10 CS) recently detected a higher volume of network traffic on the base network. The 10 CS Director of Operations asked you are to write a program that will determine whether or not to activate an additional Network Load Balancer (NLB) to improve the network performance during these peak loads. Your program will ask for the number of network traffic "snapshots" to analyze. It will then ask for the network load (in Gigabits per second (Gbps), which does not have to be a whole number) for each "snapshot". Your program will keep track of how many "snapshots" are designated as high volume network traffic, defined as loads greater than 512 Gbps. Your program will then print one of the following statements:</p>
+<table border="1" width="">
+<tbody>
+<tr>
+<td><strong># of "snapshots" with high network traffic volume</strong></td>
+<td><strong>0</strong></td>
+<td><strong>1-2</strong></td>
+<td><strong>&gt;2</strong></td>
+</tr>
+<tr>
+<td><strong>Output</strong></td>
+<td>Ops Normal</td>
+<td>Initialize NLB</td>
+<td>Activate NLB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>EXAMPLES:</strong></p>
+<table border="1">
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td><strong>Example 1</strong></td>
+<td><strong>Example 2</strong></td>
+<td><strong>Example 3</strong></td>
+</tr>
+<tr>
+<td><strong>INPUT</strong></td>
+<td>
+<p>3</p>
+<p>512.0</p>
+<p>738.5</p>
+<p>199.6</p>
+</td>
+<td>
+<p>3</p>
+<p>498.6</p>
+<p>372.9</p>
+<p>512.0</p>
+</td>
+<td>
+<p>4</p>
+<p>560.2</p>
+<p>690.5</p>
+<p>199.2</p>
+<p>727.4</p>
+</td>
+</tr>
+<tr>
+<td><strong>OUTPUT</strong></td>
+<td>Initialize NLB</td>
+<td>Ops Normal</td>
+<td>Activate NLB</td>
+</tr>
+</tbody>
+</table>
+</div>

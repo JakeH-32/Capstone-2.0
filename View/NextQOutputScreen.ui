@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CS110Tutor</class>
+ <widget class="QWidget" name="CS110Tutor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>622</width>
+    <height>604</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Calibri</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background-color:qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb(131, 216, 255), stop:1 rgba(255, 255, 255, 255))
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetNoConstraint</enum>
+   </property>
+   <item row="4" column="2">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="400,0,0,0,0,0,0,0,0,0,0,0,0,0">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetNoConstraint</enum>
+     </property>
+     <item row="1" column="1">
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>10</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="12" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="horizontalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_13">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="DecreaseButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>10</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color:&quot;linen&quot;;
+margin: 3px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Decrease Difficulty</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_11">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="MaintainButton">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>10</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color:&quot;linen&quot;;
+margin: 2px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Maintain Difficulty</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_12">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="IncreaseButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>10</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color:&quot;linen&quot;;
+margin: 4px;
+}</string>
+         </property>
+         <property name="text">
+          <string>Increase Difficulty</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_14">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Expanding</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_4"/>
+     </item>
+     <item row="9" column="1">
+      <layout class="QVBoxLayout" name="verticalLayout_2"/>
+     </item>
+     <item row="4" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::MinimumExpanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>10</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="13" column="1">
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Minimum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="2" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="AttemptLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>10</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Calibri</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color:rgba(255, 255, 255, 0);
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Attempt Number: 0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>70</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item alignment="Qt::AlignTop">
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>280</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QWidget{
+background-color:rgba(255, 255, 255, 0);
+border-radius:10px;
+}
+</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAsNeeded</enum>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContents</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>465</width>
+            <height>794</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+            <widget class="QFrame" name="frame">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>425</width>
+               <height>400</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>450</width>
+               <height>1000</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Calibri</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QWidget{
+background-color:&quot;linen&quot;;
+border-radius: 0px;
+}</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Plain</enum>
+             </property>
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+             <property name="midLineWidth">
+              <number>0</number>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="QuestionTextLabel">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>400</width>
+                  <height>250</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>750</width>
+                  <height>99999</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Calibri</family>
+                  <pointsize>10</pointsize>
+                  <weight>50</weight>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                  <kerning>true</kerning>
+                 </font>
+                </property>
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QWidget{
+background-color:&quot;linen&quot;;
+margin:30px;
+margin-bottom:0px;
+}</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Sunken</enum>
+                </property>
+                <property name="lineWidth">
+                 <number>0</number>
+                </property>
+                <property name="midLineWidth">
+                 <number>0</number>
+                </property>
+                <property name="text">
+                 <string>&lt;div&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;PROBLEM STATEMENT:&lt;br /&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;You have been provided with a dataset containing information about various types of Pokemon. Here is an example entry from the file:&lt;/p&gt;
+&lt;pre&gt;25, Pikachu, Electric, 35, 55, 40, 50, 50, 90, 1, FALSE&lt;/pre&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Each position in the line represents a different &quot;data element&quot;. Here is a key for your reference:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;ID&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Name&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Type&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Hit Points&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Attack&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Defense&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Special Attack&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Special Defense&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Speed&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Generation&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Legendary&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Value&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;Pikachu&lt;/td&gt;
+&lt;td&gt;Electric&lt;/td&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;td&gt;55&lt;/td&gt;
+&lt;td&gt;40&lt;/td&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;td&gt;90&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;False&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Write a program that asks the user for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;a Pokemon Type (e.g., &quot;Electric&quot;).&amp;nbsp;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Your program should then analyze the file and print:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The highest speed from a Pokemon with the matching type&lt;/li&gt;
+&lt;li&gt;The name of the Pokemon with the fastest speed. In the event of a tie, print out the name of the FIRST Pokemon that matches.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;EXAMPLE:&lt;br /&gt;&lt;/strong&gt;If, for example, the fastest Bug Pokemon is Accelgor (with a speed of 145.0), your program should print out:&lt;/p&gt;
+&lt;pre&gt;145.0&lt;br /&gt;Accelgor&lt;/pre&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;NOTE: The above answer is purely hypothetical. Your answer will be different.&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;</string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::AutoText</enum>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+                <property name="margin">
+                 <number>0</number>
+                </property>
+                <property name="indent">
+                 <number>0</number>
+                </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::LinksAccessibleByMouse</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="2">
+    <spacer name="verticalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="2">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <spacer name="horizontalSpacer_10">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="IncorrectLabel">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget{
+background-color:rgba(255, 255, 255, 0);
+color:rgb(255, 0, 0)
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Incorrect :/ Please try again</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="CorrectLabel">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget{
+background-color:rgba(255, 255, 255, 0);
+color:rgb(0, 170, 0)
+}
+</string>
+       </property>
+       <property name="text">
+        <string>Correct! Good Job :)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="2">
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="QuestionNameLabel">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget{
+border-radius: 0px;
+background-color:&quot;linen&quot;;
+margin: 5px;
+}</string>
+       </property>
+       <property name="text">
+        <string>Question Title</string>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <spacer name="horizontalSpacer_9">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="DifficultyLabel">
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget{
+background-color:rgba(255, 255, 255, 0);
+}
+
+</string>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <spacer name="horizontalSpacer_15">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="1" column="2">
+      <spacer name="horizontalSpacer_16">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="2">
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Minimum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

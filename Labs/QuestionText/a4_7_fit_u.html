@@ -1,0 +1,51 @@
+<div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>PROBLEM STATEMENT:<br /></strong></p>
+<p>You have been provided with a dataset called&nbsp;<code>afpft_v2.csv</code>&nbsp;that describes how various Air Force personnel performed on their most recent fitness test. Do NOT ask the user for the file name--just open and read this specific file. Here is a typical line from the dataset (each line ends with the newline &ldquo;\n&rdquo; character):</p>
+<p>&nbsp;</p>
+<p><code>38, 52, 29, 568</code></p>
+<p>&nbsp;</p>
+<p>Each position in the line (separated by a comma) represents a different &ldquo;data element,&rdquo; or &ldquo;column.&rdquo; The following table shows how the above line can be interpreted:<br /><br /></p>
+<table>
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>Sit Ups<br />(Reps)</th>
+<th>Push Ups<br />(Reps)</th>
+<th>Waist<br />(inches)</th>
+<th>1.5 Mile Run Time<br />(seconds)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Value</th>
+<th>45</th>
+<th>65</th>
+<th>32</th>
+<th>630</th>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p><strong>Write a Python program that analyzes this file and prints the # of <u>unsatisfactory</u> (less than 75) scores. </strong></p>
+<p>&nbsp;</p>
+<p>To assist you, we have provided you with a module called <code>fitness_calculator</code>&nbsp;that contains four functions:</p>
+<ul>
+<li>calculate_waist_score</li>
+<li>calculate_pushup_score</li>
+<li>calculate_situp_score</li>
+<li>calculate_run_score</li>
+</ul>
+<p>&nbsp;</p>
+<p>Each function takes a single number as a parameter, and <strong>returns</strong> the score for that category. For example, to get the score for an Airman who did 45 pushups, you could import the module and call it, as follows:</p>
+<pre>pushup_score = fitness_calculator.calculate_pushup_score(45)</pre>
+<p>&nbsp;</p>
+<p>To get a single Airman's total score, simply calculate the score for each category and add them up.</p>
+<pre>score = waist_score + pushup_score + situp_score + run_score</pre>
+<p>&nbsp;</p>
+<p><strong>EXAMPLES:</strong></p>
+<p>If, for example, the number of unsatisfactory scores is 10, your program should print:</p>
+<pre><strong>10</strong></pre>
+<p><strong>* Your answer will be different.</strong></p>
+</div>

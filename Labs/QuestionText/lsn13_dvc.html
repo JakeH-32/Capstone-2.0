@@ -1,0 +1,15 @@
+<div>
+<p><strong>PROBLEM STATEMENT:<br /></strong>The CS110Z course director, unfortunately, was tricked into purchasing a Disney Vacation Club timeshare. The good news about DVC is that it lets you reserve a room at any Disney Resort for one week! The downside, however, is that members have to pay an annual "maintenance fee" so that the mouse can keep the property looking good (EVEN when Disney World was closed due to COVID-19 . . . yay).</p>
+<p>This year, the maintenance was $623.00. If that isn't bad enough, your course director discovered that maintenance fees aren't fixed! On the contrary, it accues each year at a rate of approximately 1.5%.</p>
+<p>Write a Python function called&nbsp;<code>get_years_until</code>&nbsp;that takes a&nbsp;<strong>target value</strong>&nbsp;as a parameter, and returns the number of years (assuming a fixed interest rate) before the maintenance fee exceeds this value.</p>
+<p><strong>Example 1</strong><br /><code>get_years_until(624)</code>&nbsp;should return 1. This is because:</p>
+<ul>
+<li>The maintenance fee will increase by $9.35 (i.e., 1.5% of 623) in a year</li>
+<li>The new maintenance fee will be $623.00 + $9.35 = $632.35, which is obviously more than $624.00</li>
+</ul>
+<p><strong><br />Example 2</strong><br /><code>get_years_until(1000)</code>&nbsp;should return 32. This is because:</p>
+<ul>
+<li>623 * 1.015 * 1.015 * 1.015 . . . (32 times total) = $1003.23, which is obviously more than $1000.00</li>
+</ul>
+<p><br /><strong>Don't Know Where to Start?!?</strong><br />Use a While loop to keep calculating the new maintenance fee until the value is . . . (we'll let you figure out the rest).</p>
+</div>
